@@ -1,0 +1,75 @@
+package org.example.map;
+
+import org.example.factory.EntityFactory;
+import org.example.model.Entity;
+import org.example.model.creature.Creature;
+import org.example.render.WorldMapRenderer;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class WorldMap {
+
+    private final int width;
+    private final int height;
+    private final Map<Cell, Entity> map;
+    private final WorldMapRenderer worldMapRenderer;
+
+    public WorldMap(final int width, final int height, final WorldMapRenderer worldMapRenderer) {
+        this.width = width;
+        this.height = height;
+        this.worldMapRenderer = worldMapRenderer;
+        this.map = new HashMap<>();
+        initWorldMap(width, height);
+    }
+
+    private void initWorldMap(final int width, final int height) {
+        final EntityFactory entityFactory = new EntityFactory();
+
+        for (int verticalCoordinate = 0; verticalCoordinate < height; verticalCoordinate++) {
+            for (int horizontalCoordinate = 0; horizontalCoordinate < width; horizontalCoordinate++) {
+                final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
+                final Entity entity = entityFactory.getRandomEntity();
+                map.put(cell, entity);
+            }
+        }
+    }
+
+    public void moveEntity(final Cell from, final Cell to) {
+        if (!from.equals(to)) {
+            Entity entityToMove = map.get(from);
+            map.put(from, null);
+            map.put(to, entityToMove);
+            worldMapRenderer.render(this);
+        }
+    }
+
+    public Cell getCellForEntity(final Entity entity) {
+        for (Map.Entry<Cell, Entity> entry : map.entrySet()) {
+            if (entry.getValue() != null && entry.getValue().equals(entity)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public List<Creature> getAllCreatures() {
+        return map.values().stream()
+                .filter(entity -> entity instanceof Creature)
+                .map(entity -> (Creature) entity).toList();
+    }
+
+    public Entity getEntity(final Cell cell) {
+        return map.get(cell);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+}

@@ -1,7 +1,15 @@
 package org.example;
 
+import org.example.map.WorldMap;
+import org.example.render.WorldMapRenderer;
+import org.example.render.impl.ConsoleWorldMapRenderer;
+import org.example.simulation.Simulation;
+
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        final WorldMapRenderer worldMapRenderer = new ConsoleWorldMapRenderer();
+        final WorldMap worldMap = new WorldMap(20, 10, worldMapRenderer);
+        new Simulation(worldMap, worldMapRenderer).start();
     }
 }
