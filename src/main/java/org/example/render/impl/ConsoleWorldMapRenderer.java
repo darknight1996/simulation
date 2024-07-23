@@ -5,12 +5,14 @@ import org.example.map.WorldMap;
 import org.example.model.Entity;
 import org.example.render.WorldMapRenderer;
 
+import java.io.IOException;
+
 public class ConsoleWorldMapRenderer implements WorldMapRenderer {
 
     @Override
     public void render(final WorldMap worldMap) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

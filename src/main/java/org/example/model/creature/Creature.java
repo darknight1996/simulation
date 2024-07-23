@@ -5,8 +5,8 @@ import org.example.model.Entity;
 
 public abstract class Creature extends Entity {
 
-    private final int speed;
-    private final int hitPoints;
+    protected int speed;
+    private int hitPoints;
 
     protected Creature(final String sign, final int speed, final int hitPoints) {
         super(sign);

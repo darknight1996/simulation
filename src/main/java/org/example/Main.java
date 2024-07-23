@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         final WorldMapRenderer worldMapRenderer = new ConsoleWorldMapRenderer();
-        final WorldMap worldMap = new WorldMap(20, 10, worldMapRenderer);
+        final WorldMap worldMap = new WorldMap(10, 10, worldMapRenderer);
         new Simulation(worldMap, worldMapRenderer).start();
     }
 }

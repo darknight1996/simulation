@@ -39,10 +39,14 @@ public class WorldMap {
     public void moveEntity(final Cell from, final Cell to) {
         if (!from.equals(to)) {
             Entity entityToMove = map.get(from);
-            map.put(from, null);
+            map.remove(from);
             map.put(to, entityToMove);
             worldMapRenderer.render(this);
         }
+    }
+
+    public boolean isCellExists(final Cell cell) {
+        return map.containsKey(cell);
     }
 
     public Cell getCellForEntity(final Entity entity) {

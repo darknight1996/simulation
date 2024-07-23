@@ -6,10 +6,22 @@ import org.example.model.creature.Creature;
 
 public class MoveCreaturesAction implements Action {
 
+    private final WorldMap worldMap;
+
+    public MoveCreaturesAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
+    }
+
     @Override
-    public void doAction(final WorldMap worldMap) {
+    public void doAction() {
         for (Creature creature : worldMap.getAllCreatures()) {
-            creature.makeMove(worldMap);
+            if (isStillAlive(creature)) {
+                creature.makeMove(worldMap);
+            }
         }
+    }
+
+    private boolean isStillAlive(final Creature creature) {
+        return worldMap.getCellForEntity(creature) != null;
     }
 }

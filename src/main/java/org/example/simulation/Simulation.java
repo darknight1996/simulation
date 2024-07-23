@@ -16,6 +16,9 @@ public class Simulation {
 
     public void start() {
         worldMapRenderer.render(worldMap);
-        new MoveCreaturesAction().doAction(worldMap);
+        final MoveCreaturesAction moveCreaturesAction = new MoveCreaturesAction(worldMap);
+        while (true) {
+            moveCreaturesAction.doAction();
+        }
     }
 }

@@ -25,10 +25,10 @@ public class EntityFactory {
                 return new Tree();
             }
             case 3 -> {
-                return new Herbivore(1, 100);
+                return new Herbivore(3, 100);
             }
             case 4 -> {
-                return new Predator(1, 100, 50);
+                return new Predator(3, 100, 50);
             }
             default -> {
                 return null;
