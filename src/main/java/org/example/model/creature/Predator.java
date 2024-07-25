@@ -2,7 +2,6 @@ package org.example.model.creature;
 
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.model.environment.Grass;
 import org.example.service.PathFinderService;
 import org.example.service.impl.BFSPathFinderService;
 
@@ -13,7 +12,7 @@ public class Predator extends Creature {
     private final int attackPoints;
 
     public Predator(final int speed, final int hitPoints, final int attackPoints) {
-        super("🐅", speed, hitPoints);
+        super("\uD83D\uDC05", speed, hitPoints);
         this.attackPoints = attackPoints;
     }
 

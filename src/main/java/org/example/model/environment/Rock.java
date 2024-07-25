@@ -5,6 +5,6 @@ import org.example.model.Entity;
 public class Rock extends Entity {
 
     public Rock() {
-        super("🗿");
+        super("\uD83D\uDDFB");
     }
 }

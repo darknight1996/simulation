@@ -59,6 +59,8 @@ public class BFSPathFinderService implements PathFinderService {
                 path.add(currentCell);
                 currentCell = cellsToFromCells.get(currentCell);
             }
+
+            path.remove(path.size() -1);
             Collections.reverse(path);
             return path;
         } else {

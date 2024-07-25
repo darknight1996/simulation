@@ -11,7 +11,7 @@ import java.util.List;
 public class Herbivore extends Creature {
 
     public Herbivore(final int speed, final int hitPoints) {
-        super("🐇", speed, hitPoints);
+        super("\uD83D\uDC24", speed, hitPoints);
     }
 
     @Override

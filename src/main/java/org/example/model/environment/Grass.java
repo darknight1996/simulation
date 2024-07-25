@@ -5,7 +5,7 @@ import org.example.model.Entity;
 public class Grass extends Entity {
 
     public Grass() {
-        super("🍀");
+        super("\uD83C\uDF3F");
     }
 
 }
