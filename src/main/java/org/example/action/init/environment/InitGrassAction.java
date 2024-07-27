@@ -1,5 +1,6 @@
-package org.example.action.init;
+package org.example.action.init.environment;
 
+import org.example.action.init.InitAction;
 import org.example.factory.environment.GrassFactory;
 import org.example.map.WorldMap;
 

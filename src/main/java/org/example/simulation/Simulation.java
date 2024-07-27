@@ -1,9 +1,11 @@
 package org.example.simulation;
 
 import org.example.action.Action;
-import org.example.action.init.InitGrassAction;
-import org.example.action.init.InitRockAction;
-import org.example.action.init.InitTreeAction;
+import org.example.action.init.creature.InitHerbivoreAction;
+import org.example.action.init.creature.InitPredatorAction;
+import org.example.action.init.environment.InitGrassAction;
+import org.example.action.init.environment.InitRockAction;
+import org.example.action.init.environment.InitTreeAction;
 import org.example.map.WorldMap;
 import org.example.render.WorldMapRenderer;
 
@@ -28,9 +30,13 @@ public class Simulation {
 
     private void createInitActions() {
         initActions = new ArrayList<>();
+
         initActions.add(new InitGrassAction(worldMap));
         initActions.add(new InitTreeAction(worldMap));
         initActions.add(new InitRockAction(worldMap));
+
+        initActions.add(new InitPredatorAction(worldMap));
+        initActions.add(new InitHerbivoreAction(worldMap));
     }
 
     private void createTurnActions() {

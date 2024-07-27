@@ -1,13 +1,12 @@
 package org.example.factory.environment;
 
 import org.example.factory.EntityFactory;
-import org.example.model.Entity;
 import org.example.model.environment.Tree;
 
-public class TreeFactory extends EntityFactory {
+public class TreeFactory extends EntityFactory<Tree> {
 
     @Override
-    public Entity getEntity() {
+    public Tree getEntity() {
         return new Tree();
     }
 

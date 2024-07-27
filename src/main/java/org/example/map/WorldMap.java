@@ -1,6 +1,5 @@
 package org.example.map;
 
-import org.example.factory.EntityFactory;
 import org.example.model.Entity;
 import org.example.model.creature.Creature;
 import org.example.render.WorldMapRenderer;

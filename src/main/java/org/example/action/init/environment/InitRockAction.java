@@ -1,5 +1,6 @@
-package org.example.action.init;
+package org.example.action.init.environment;
 
+import org.example.action.init.InitAction;
 import org.example.factory.environment.RockFactory;
 import org.example.map.WorldMap;
 
@@ -7,7 +8,7 @@ public class InitRockAction extends InitAction {
 
     private static final int FILL_FACTOR = 10;
 
-    public InitRockAction(WorldMap worldMap) {
+    public InitRockAction(final WorldMap worldMap) {
         super(worldMap, new RockFactory(), FILL_FACTOR);
     }
 }
