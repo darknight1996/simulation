@@ -9,30 +9,7 @@ import org.example.model.environment.Tree;
 
 import java.util.Random;
 
-public class EntityFactory {
+public abstract class EntityFactory {
 
-    public Entity getRandomEntity() {
-        int a = new Random().nextInt(20);
-
-        switch (a) {
-            case 0 -> {
-                return new Grass();
-            }
-            case 1 -> {
-                return new Rock();
-            }
-            case 2 -> {
-                return new Tree();
-            }
-            case 3 -> {
-                return new Herbivore(2, 100);
-            }
-            case 4 -> {
-                return new Predator(2, 100, 50);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
+    public abstract Entity getEntity();
 }

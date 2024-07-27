@@ -36,8 +36,7 @@ public class BFSPathFinderService implements PathFinderService {
                 break;
             }
 
-            final List<Cell> nextCellsToVisit = emptyCellsNear(nowVisiting)
-                    .stream()
+            final List<Cell> nextCellsToVisit = emptyCellsNear(nowVisiting).stream()
                     .filter(cell -> !visited.contains(cell))
                     .filter(cell -> !toVisit.contains(cell))
                     .toList();
@@ -69,15 +68,13 @@ public class BFSPathFinderService implements PathFinderService {
     }
 
     private List<Cell> emptyCellsNear(final Cell currentCell) {
-        return cellsToCheck(currentCell)
-                .stream()
+        return cellsToCheck(currentCell).stream()
                 .filter(cell -> worldMap.isCellExists(cell) && worldMap.getEntity(cell) == null)
                 .toList();
     }
 
     private Cell getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
-        return cellsToCheck(currentCell)
-                .stream()
+        return cellsToCheck(currentCell).stream()
                 .filter(cell -> worldMap.getEntity(cell) != null && worldMap.getEntity(cell).getClass() == targetClass)
                 .findFirst().orElse(null);
     }

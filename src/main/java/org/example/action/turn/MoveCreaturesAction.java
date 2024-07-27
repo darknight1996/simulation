@@ -1,4 +1,4 @@
-package org.example.action.impl;
+package org.example.action.turn;
 
 import org.example.action.Action;
 import org.example.map.WorldMap;

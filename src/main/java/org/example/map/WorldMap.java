@@ -25,15 +25,16 @@ public class WorldMap {
     }
 
     private void initWorldMap(final int width, final int height) {
-        final EntityFactory entityFactory = new EntityFactory();
-
         for (int verticalCoordinate = 0; verticalCoordinate < height; verticalCoordinate++) {
             for (int horizontalCoordinate = 0; horizontalCoordinate < width; horizontalCoordinate++) {
                 final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
-                final Entity entity = entityFactory.getRandomEntity();
-                map.put(cell, entity);
+                map.put(cell, null);
             }
         }
+    }
+
+    public void putEntity(final Cell cell, final Entity entity) {
+        map.put(cell, entity);
     }
 
     public void moveEntity(final Cell from, final Cell to) {
@@ -47,6 +48,12 @@ public class WorldMap {
 
     public boolean isCellExists(final Cell cell) {
         return map.containsKey(cell);
+    }
+
+    public List<Cell> getEmptyCells() {
+        return map.keySet().stream()
+                .filter(cell -> map.get(cell) == null)
+                .toList();
     }
 
     public Cell getCellForEntity(final Entity entity) {
@@ -76,4 +83,7 @@ public class WorldMap {
         return height;
     }
 
+    public int getSize() {
+        return width * height;
+    }
 }
