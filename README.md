@@ -5,6 +5,6 @@ _____
 - Maven 3.9+
 _____
 ## Task link
-https://zhukovsd.github.io/java-backend-learning-course/Projects/Simulation/
+https://zhukovsd.github.io/java-backend-learning-course/projects/simulation/
 _____
 
