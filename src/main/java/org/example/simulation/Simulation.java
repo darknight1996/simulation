@@ -21,6 +21,9 @@ public class Simulation {
     private List<Action> initActions;
     private List<Action> turnActions;
 
+    private Thread thread;
+    private volatile boolean threadStopFlag = false;
+
     public Simulation(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer) {
         this.worldMap = worldMap;
         this.worldMapRenderer = worldMapRenderer;
@@ -47,16 +50,34 @@ public class Simulation {
     }
 
     public void start() {
-        for (Action initAction : initActions) {
-            initAction.doAction();
+        if (thread != null) {
+            threadStopFlag = false;
+            return;
         }
+        threadStopFlag = false;
+        thread = new Thread(() -> {
+            synchronized (this) {
+                if (!threadStopFlag) {
+                    for (Action initAction : initActions) {
+                        initAction.doAction();
+                    }
 
-        worldMapRenderer.render(worldMap);
+                    worldMapRenderer.render(worldMap);
+                }
 
-        while (true) {
-            for (Action turnAction : turnActions) {
-                turnAction.doAction();
+                while (true) {
+                    for (Action turnAction : turnActions) {
+                        if (!threadStopFlag) {
+                            turnAction.doAction();
+                        }
+                    }
+                }
             }
-        }
+        });
+        thread.start();
+    }
+
+    public void stop() {
+        threadStopFlag = true;
     }
 }

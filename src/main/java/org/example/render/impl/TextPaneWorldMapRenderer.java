@@ -6,28 +6,17 @@ import org.example.model.Entity;
 import org.example.render.WorldMapRenderer;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class FrameWorldMapRenderer implements WorldMapRenderer {
+public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
-    private final JFrame frame;
-    private final JTextPane textArea;
+    private final JTextPane textPane;
 
-    public FrameWorldMapRenderer() {
-        frame = new JFrame();
-        frame.setTitle("Simulation");
-        frame.setSize(1000, 800);
-        frame.setVisible(true);
-        frame.setLocation(400, 200);
-        textArea = new JTextPane();
-        textArea.setVisible(true);
-        textArea.setSize(1000,800);
-        textArea.setFont(new Font("serif", Font.PLAIN, 30));
-        frame.add(textArea);
+    public TextPaneWorldMapRenderer(final JTextPane textPane) {
+        this.textPane = textPane;
     }
 
     @Override
-    public void render(WorldMap worldMap) {
+    public void render(final WorldMap worldMap) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -46,7 +35,7 @@ public class FrameWorldMapRenderer implements WorldMapRenderer {
             worldMapContent.append("\n");
         }
 
-        textArea.setText(worldMapContent.toString());
+        textPane.setText(worldMapContent.toString());
     }
 
     private String getSignByCoordinates(final WorldMap worldMap, final int horizontalCoordinate, final int verticalCoordinate) {
