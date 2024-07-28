@@ -5,8 +5,6 @@ import org.example.map.WorldMap;
 import org.example.model.Entity;
 import org.example.render.WorldMapRenderer;
 
-import java.io.IOException;
-
 public class ConsoleWorldMapRenderer implements WorldMapRenderer {
 
     @Override

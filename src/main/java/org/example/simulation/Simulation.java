@@ -6,6 +6,7 @@ import org.example.action.init.creature.InitPredatorAction;
 import org.example.action.init.environment.InitGrassAction;
 import org.example.action.init.environment.InitRockAction;
 import org.example.action.init.environment.InitTreeAction;
+import org.example.action.turn.MoveCreaturesAction;
 import org.example.map.WorldMap;
 import org.example.render.WorldMapRenderer;
 
@@ -41,13 +42,21 @@ public class Simulation {
 
     private void createTurnActions() {
         turnActions = new ArrayList<>();
+
+        turnActions.add(new MoveCreaturesAction(worldMap));
     }
 
     public void start() {
-        for (Action action : initActions) {
-            action.doAction();
+        for (Action initAction : initActions) {
+            initAction.doAction();
         }
 
         worldMapRenderer.render(worldMap);
+
+        while (true) {
+            for (Action turnAction : turnActions) {
+                turnAction.doAction();
+            }
+        }
     }
 }
