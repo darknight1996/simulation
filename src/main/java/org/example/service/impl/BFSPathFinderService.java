@@ -49,6 +49,13 @@ public class BFSPathFinderService implements PathFinderService {
         return restorePath(target, cellsToFromCells);
     }
 
+    public Cell getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
+        return cellsToCheck(currentCell).stream()
+                .filter(cell -> worldMap.getEntity(cell) != null)
+                .filter(cell -> worldMap.getEntity(cell).getClass() == targetClass)
+                .findFirst().orElse(null);
+    }
+
     private List<Cell> restorePath(final Cell target, final Map<Cell,Cell> cellsToFromCells) {
         if (target != null) {
             final List<Cell> path = new ArrayList<>();
@@ -59,7 +66,7 @@ public class BFSPathFinderService implements PathFinderService {
                 currentCell = cellsToFromCells.get(currentCell);
             }
 
-            path.remove(path.size() -1);
+            path.remove(path.size() - 1);
             Collections.reverse(path);
             return path;
         } else {
@@ -72,13 +79,6 @@ public class BFSPathFinderService implements PathFinderService {
         return cellsToCheck(currentCell).stream()
                 .filter(emptyCells::contains)
                 .toList();
-    }
-
-    private Cell getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
-        return cellsToCheck(currentCell).stream()
-                .filter(cell -> worldMap.getEntity(cell) != null)
-                .filter(cell -> worldMap.getEntity(cell).getClass() == targetClass)
-                .findFirst().orElse(null);
     }
 
     private Set<Cell> cellsToCheck(final Cell currentCell) {

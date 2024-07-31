@@ -8,4 +8,5 @@ import java.util.List;
 public interface PathFinderService {
 
     List<Cell> findPath(final Cell currentCell, final Class<? extends Entity> targetClass);
+    Cell getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass);
 }

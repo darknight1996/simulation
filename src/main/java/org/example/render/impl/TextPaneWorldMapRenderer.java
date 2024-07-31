@@ -18,14 +18,14 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
     @Override
     public void render(final WorldMap worldMap) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         final int width = worldMap.getWidth();
         final int height = worldMap.getHeight();
 
-        StringBuffer worldMapContent = new StringBuffer();
+        final StringBuilder worldMapContent = new StringBuilder();
 
         for (int verticalCoordinate = 0; verticalCoordinate < height; verticalCoordinate++) {
             for (int horizontalCoordinate = 0; horizontalCoordinate < width; horizontalCoordinate++) {

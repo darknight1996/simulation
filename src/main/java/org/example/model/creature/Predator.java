@@ -20,13 +20,35 @@ public class Predator extends Creature {
     public void makeMove(final WorldMap worldMap) {
         final PathFinderService pathFinderService = new BFSPathFinderService(worldMap);
         final Cell currentCell = worldMap.getCellForEntity(this);
-        final List<Cell> path = pathFinderService.findPath(currentCell, Herbivore.class);
+        final Cell targetCell = pathFinderService.getTargetNear(currentCell, Herbivore.class);
 
-        for (int i = 0; i < speed; i++) {
-            if (i < path.size()) {
-                final Cell fromCell = worldMap.getCellForEntity(this);
-                worldMap.moveEntity(fromCell, path.get(i));
-            }
+        if (targetCell != null) {
+            attack(worldMap, targetCell);
+        } else {
+            final List<Cell> path = pathFinderService.findPath(currentCell, Herbivore.class);
+            makeSteps(worldMap, path);
+        }
+    }
+
+    private void attack(final WorldMap worldMap, final Cell targetCell) {
+        final Herbivore target = (Herbivore) worldMap.getEntity(targetCell);
+
+        target.getDamage(attackPoints);
+
+        if (!target.isAlive()) {
+            worldMap.removeEntity(target);
+        }
+    }
+
+    private void makeSteps(final WorldMap worldMap, final List<Cell> path) {
+        if (!path.isEmpty()) {
+            path.remove(path.size() - 1);
+        }
+
+        final int minOfPathAndSpeed = Math.min(speed, path.size());
+        for (int i = 0; i < minOfPathAndSpeed; i++) {
+            final Cell fromCell = worldMap.getCellForEntity(this);
+            worldMap.moveEntity(fromCell, path.get(i));
         }
     }
 }

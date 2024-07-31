@@ -15,4 +15,12 @@ public abstract class Creature extends Entity {
     }
 
     public abstract void makeMove(final WorldMap worldMap);
+
+    public void getDamage(final int damage) {
+        hitPoints -= damage;
+    }
+
+    public boolean isAlive() {
+        return hitPoints > 0;
+    }
 }

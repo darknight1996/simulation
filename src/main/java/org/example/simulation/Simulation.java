@@ -20,9 +20,10 @@ public class Simulation {
 
     private List<Action> initActions;
     private List<Action> turnActions;
+    private int turnCounter = 0;
 
     private Thread thread;
-    private volatile boolean threadStopFlag = false;
+    private volatile boolean isStopRequested = false;
 
     public Simulation(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer) {
         this.worldMap = worldMap;
@@ -30,6 +31,8 @@ public class Simulation {
 
         createInitActions();
         createTurnActions();
+
+        initSimulation();
     }
 
     private void createInitActions() {
@@ -49,35 +52,45 @@ public class Simulation {
         turnActions.add(new MoveCreaturesAction(worldMap));
     }
 
+    private void initSimulation() {
+        for (Action initAction : initActions) {
+            initAction.doAction();
+        }
+
+        worldMapRenderer.render(worldMap);
+    }
+
     public void start() {
         if (thread != null) {
-            threadStopFlag = false;
+            setIsStopRequested(false);
             return;
         }
-        threadStopFlag = false;
+
         thread = new Thread(() -> {
-            synchronized (this) {
-                if (!threadStopFlag) {
-                    for (Action initAction : initActions) {
-                        initAction.doAction();
-                    }
+            while (true) {
+                if (!isStopRequested()) {
+                    System.out.println("current turn is " + ++turnCounter);
 
-                    worldMapRenderer.render(worldMap);
-                }
-
-                while (true) {
                     for (Action turnAction : turnActions) {
-                        if (!threadStopFlag) {
-                            turnAction.doAction();
-                        }
+                        turnAction.doAction();
                     }
                 }
             }
         });
+
         thread.start();
     }
 
     public void stop() {
-        threadStopFlag = true;
+        setIsStopRequested(true);
     }
+
+    private synchronized boolean isStopRequested() {
+        return isStopRequested;
+    }
+
+    private synchronized void setIsStopRequested(final boolean isStopRequested) {
+        this.isStopRequested = isStopRequested;
+    }
+
 }

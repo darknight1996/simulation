@@ -70,6 +70,14 @@ public class WorldMap {
         return map.get(cell);
     }
 
+    public void removeEntity(final Entity entity) {
+        final Cell cell = getCellForEntity(entity);
+        if (cell != null) {
+            map.put(cell, null);
+            worldMapRenderer.render(this);
+        }
+    }
+
     public int getWidth() {
         return width;
     }

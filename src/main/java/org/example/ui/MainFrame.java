@@ -33,7 +33,9 @@ public class MainFrame extends JFrame {
 
     private void initTextPane() {
         textPane = new JTextPane();
-        textPane.setFont(new Font("serif", Font.PLAIN, 30));
+        textPane.setFont(new Font("", Font.PLAIN, 30));
+        textPane.setFocusable(false);
+        textPane.setCursor(getCursor());
         this.add(textPane);
     }
 
