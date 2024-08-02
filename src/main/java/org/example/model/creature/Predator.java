@@ -17,9 +17,11 @@ public class Predator extends Creature {
         final Herbivore target = (Herbivore) worldMap.getEntity(targetCell);
 
         target.getDamage(attackPoints);
+        System.out.println(this + " attacked " + target);
 
         if (!target.isAlive()) {
             worldMap.removeEntity(targetCell);
+            System.out.println(this + " killed " + target);
         }
     }
 

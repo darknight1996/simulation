@@ -32,4 +32,9 @@ public class Cell {
     public int hashCode() {
         return Objects.hash(horizontalCoordinate, verticalCoordinate);
     }
+
+    @Override
+    public String toString() {
+        return "(" + horizontalCoordinate + ", " + verticalCoordinate + ")";
+    }
 }

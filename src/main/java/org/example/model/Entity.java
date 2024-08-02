@@ -11,4 +11,9 @@ public abstract class Entity {
     public String getSign() {
         return sign;
     }
+
+    @Override
+    public String toString() {
+        return sign;
+    }
 }

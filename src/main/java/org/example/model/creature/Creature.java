@@ -44,6 +44,7 @@ public abstract class Creature extends Entity {
         final int minOfPathAndSpeed = Math.min(speed, path.size());
         for (int i = 0; i < minOfPathAndSpeed; i++) {
             worldMap.moveEntity(this, path.get(i));
+            System.out.println(this + " moving to " + path.get(i));
         }
     }
 

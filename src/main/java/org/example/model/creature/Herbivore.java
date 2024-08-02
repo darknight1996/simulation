@@ -12,7 +12,9 @@ public class Herbivore extends Creature {
 
     @Override
     protected void interactWithTarget(final WorldMap worldMap, final Cell targetCell) {
+        final Grass target = (Grass) worldMap.getEntity(targetCell);
         worldMap.removeEntity(targetCell);
+        System.out.println(this + " ate " + target);
     }
 
 }
