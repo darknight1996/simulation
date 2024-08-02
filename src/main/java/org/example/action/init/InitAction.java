@@ -12,10 +12,10 @@ import java.util.Random;
 public abstract class InitAction implements Action {
 
     private final WorldMap worldMap;
-    private final EntityFactory entityFactory;
+    private final EntityFactory<?> entityFactory;
     private final int fillFactor;
 
-    public InitAction(final WorldMap worldMap, final EntityFactory entityFactory, final int fillFactor) {
+    public InitAction(final WorldMap worldMap, final EntityFactory<?> entityFactory, final int fillFactor) {
         this.worldMap = worldMap;
         this.entityFactory = entityFactory;
         this.fillFactor = fillFactor;

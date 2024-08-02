@@ -36,11 +36,11 @@ public class WorldMap {
         map.put(cell, entity);
     }
 
-    public void moveEntity(final Cell from, final Cell to) {
-        if (!from.equals(to)) {
-            Entity entityToMove = map.get(from);
-            map.put(from, null);
-            map.put(to, entityToMove);
+    public void moveEntity(final Entity entityToMove, final Cell targetCell) {
+        final Cell currentCell = getCellForEntity(entityToMove);
+        if (!currentCell.equals(targetCell)) {
+            map.put(currentCell, null);
+            map.put(targetCell, entityToMove);
             worldMapRenderer.render(this);
         }
     }
@@ -70,12 +70,9 @@ public class WorldMap {
         return map.get(cell);
     }
 
-    public void removeEntity(final Entity entity) {
-        final Cell cell = getCellForEntity(entity);
-        if (cell != null) {
-            map.put(cell, null);
-            worldMapRenderer.render(this);
-        }
+    public void removeEntity(final Cell cell) {
+        map.put(cell, null);
+        worldMapRenderer.render(this);
     }
 
     public int getWidth() {
