@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
 
     private void init() {
         this.setTitle("Simulation");
-        this.setSize(1000, 800);
+        this.setSize(620, 460);
         this.setLocation(400, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 
     private void initSimulation() {
         final WorldMapRenderer worldMapRenderer = new TextPaneWorldMapRenderer(textPane);
-        final WorldMap worldMap = new WorldMap(10, 10, worldMapRenderer);
+        final WorldMap worldMap = new WorldMap(20, 10, worldMapRenderer);
         simulation = new Simulation(worldMap, worldMapRenderer);
     }
 }

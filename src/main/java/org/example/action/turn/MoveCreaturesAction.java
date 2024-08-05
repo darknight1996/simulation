@@ -13,7 +13,7 @@ public class MoveCreaturesAction implements Action {
     }
 
     @Override
-    public void doAction() {
+    public void perform() {
         for (Creature creature : worldMap.getAllCreatures()) {
             if (isStillAlive(creature)) {
                 creature.makeMove(worldMap);

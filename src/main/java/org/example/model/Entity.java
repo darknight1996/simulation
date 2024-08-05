@@ -12,8 +12,4 @@ public abstract class Entity {
         return sign;
     }
 
-    @Override
-    public String toString() {
-        return sign;
-    }
 }

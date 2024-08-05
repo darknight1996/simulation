@@ -18,7 +18,7 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
     @Override
     public void render(final WorldMap worldMap) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

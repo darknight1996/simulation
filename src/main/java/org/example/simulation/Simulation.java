@@ -8,6 +8,7 @@ import org.example.action.init.environment.InitRockAction;
 import org.example.action.init.environment.InitTreeAction;
 import org.example.action.turn.MoveCreaturesAction;
 import org.example.map.WorldMap;
+import org.example.model.creature.Creature;
 import org.example.render.WorldMapRenderer;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class Simulation {
 
     private void initSimulation() {
         for (Action initAction : initActions) {
-            initAction.doAction();
+            initAction.perform();
         }
 
         worldMapRenderer.render(worldMap);
@@ -67,18 +68,25 @@ public class Simulation {
         }
 
         thread = new Thread(() -> {
-            while (true) {
+            while (anyCreatureHasTarget()) {
                 if (!isStopRequested()) {
                     System.out.println("current turn is " + ++turnCounter);
 
                     for (Action turnAction : turnActions) {
-                        turnAction.doAction();
+                        turnAction.perform();
                     }
                 }
             }
+            System.out.println("simulation ended after " + turnCounter + " turns");
         });
 
         thread.start();
+    }
+
+    private boolean anyCreatureHasTarget() {
+        final List<Creature> creatures = worldMap.getAllCreatures();
+        return creatures.stream()
+                .anyMatch(creature -> !creature.isHasNoTarget());
     }
 
     public void stop() {

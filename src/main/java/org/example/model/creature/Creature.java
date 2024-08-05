@@ -13,6 +13,7 @@ public abstract class Creature extends Entity {
     private final int speed;
     private int hitPoints;
     private final Class<? extends Entity> targetClass;
+    private boolean hasNoTarget;
 
     protected Creature(final String sign, final int speed, final int hitPoints, final Class<? extends Entity> targetClass) {
         super(sign);
@@ -30,7 +31,11 @@ public abstract class Creature extends Entity {
             interactWithTarget(worldMap, targetCell);
         } else {
             final List<Cell> path = pathFinderService.findPath(currentCell, targetClass);
-            makeSteps(worldMap, path);
+            if (path.isEmpty()) {
+                hasNoTarget = true;
+            } else {
+                makeSteps(worldMap, path);
+            }
         }
     }
 
@@ -44,7 +49,7 @@ public abstract class Creature extends Entity {
         final int minOfPathAndSpeed = Math.min(speed, path.size());
         for (int i = 0; i < minOfPathAndSpeed; i++) {
             worldMap.moveEntity(this, path.get(i));
-            System.out.println(this + " moving to " + path.get(i));
+            System.out.println(getSign() + " moving to " + path.get(i));
         }
     }
 
@@ -56,4 +61,7 @@ public abstract class Creature extends Entity {
         return hitPoints > 0;
     }
 
+    public boolean isHasNoTarget() {
+        return hasNoTarget;
+    }
 }
