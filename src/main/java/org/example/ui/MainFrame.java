@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 
     private void initSimulation() {
         final WorldMapRenderer worldMapRenderer = new TextPaneWorldMapRenderer(textPane);
-        final WorldMap worldMap = new WorldMap(20, 10, worldMapRenderer);
+        final WorldMap worldMap = new WorldMap(20, 10);
         simulation = new Simulation(worldMap, worldMapRenderer);
     }
 }
