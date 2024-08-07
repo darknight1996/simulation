@@ -24,7 +24,7 @@ public class Simulation {
     private int turnCounter = 0;
 
     private Thread thread;
-    private volatile boolean isStopRequested = false;
+    private boolean isStopRequested = false;
 
     public Simulation(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer) {
         this.worldMap = worldMap;

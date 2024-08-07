@@ -24,7 +24,8 @@ public abstract class InitAction implements Action {
     @Override
     public void perform() {
         final List<Cell> emptyCells = worldMap.getEmptyCells();
-        final int cellsToFillCount = worldMap.getSize() / fillFactor;
+        final int worldMapSize = worldMap.getHeight() * worldMap.getWidth();
+        final int cellsToFillCount = worldMapSize / fillFactor;
         final List<Cell> cellsToFill = getRandomCells(emptyCells, cellsToFillCount);
 
         for (Cell cell : cellsToFill) {

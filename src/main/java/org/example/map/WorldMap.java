@@ -83,7 +83,4 @@ public class WorldMap {
         return height;
     }
 
-    public int getSize() {
-        return width * height;
-    }
 }
