@@ -2,7 +2,6 @@ package org.example.map;
 
 import org.example.model.Entity;
 import org.example.model.creature.Creature;
-import org.example.render.WorldMapRenderer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +12,10 @@ public class WorldMap {
     private final int width;
     private final int height;
     private final Map<Cell, Entity> map;
-    private final WorldMapRenderer worldMapRenderer;
 
-    public WorldMap(final int width, final int height, final WorldMapRenderer worldMapRenderer) {
+    public WorldMap(final int width, final int height) {
         this.width = width;
         this.height = height;
-        this.worldMapRenderer = worldMapRenderer;
         this.map = new HashMap<>();
         initWorldMap(width, height);
     }
@@ -34,15 +31,6 @@ public class WorldMap {
 
     public void putEntity(final Cell cell, final Entity entity) {
         map.put(cell, entity);
-    }
-
-    public void moveEntity(final Entity entityToMove, final Cell targetCell) {
-        final Cell currentCell = getCellForEntity(entityToMove);
-        if (!currentCell.equals(targetCell)) {
-            map.put(currentCell, null);
-            map.put(targetCell, entityToMove);
-            worldMapRenderer.render(this);
-        }
     }
 
     public List<Cell> getEmptyCells() {
@@ -72,7 +60,6 @@ public class WorldMap {
 
     public void removeEntity(final Cell cell) {
         map.put(cell, null);
-        worldMapRenderer.render(this);
     }
 
     public int getWidth() {

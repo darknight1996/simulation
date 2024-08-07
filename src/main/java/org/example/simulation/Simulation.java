@@ -50,7 +50,7 @@ public class Simulation {
     private void createTurnActions() {
         turnActions = new ArrayList<>();
 
-        turnActions.add(new MoveCreaturesAction(worldMap));
+        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer));
     }
 
     private void initSimulation() {

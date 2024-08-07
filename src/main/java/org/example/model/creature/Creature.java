@@ -22,35 +22,44 @@ public abstract class Creature extends Entity {
         this.targetClass = targetClass;
     }
 
-    public void makeMove(final WorldMap worldMap) {
+    public void makeMove(final WorldMap worldMap, final Runnable onMoveAction) {
         final PathFinderService pathFinderService = new BFSPathFinderService(worldMap);
         final Cell currentCell = worldMap.getCellForEntity(this);
         final Cell targetCell = pathFinderService.getTargetNear(currentCell, targetClass);
 
         if (targetCell != null) {
             interactWithTarget(worldMap, targetCell);
+            onMoveAction.run();
         } else {
             final List<Cell> path = pathFinderService.findPath(currentCell, targetClass);
             if (path.isEmpty()) {
                 hasNoTarget = true;
             } else {
-                makeSteps(worldMap, path);
+                makeSteps(worldMap, path, onMoveAction);
             }
         }
     }
 
     protected abstract void interactWithTarget(final WorldMap worldMap, final Cell targetCell);
 
-    private void makeSteps(final WorldMap worldMap, final List<Cell> path) {
+    private void makeSteps(final WorldMap worldMap, final List<Cell> path, final Runnable onMoveAction) {
         if (!path.isEmpty()) {
             path.remove(path.size() - 1);
         }
 
         final int minOfPathAndSpeed = Math.min(speed, path.size());
         for (int i = 0; i < minOfPathAndSpeed; i++) {
-            worldMap.moveEntity(this, path.get(i));
+            final Cell currentCell = worldMap.getCellForEntity(this);
+            final Cell targetCell = path.get(i);
+            makeStep(currentCell, targetCell, worldMap);
+            onMoveAction.run();
             System.out.println(getSign() + " moving to " + path.get(i));
         }
+    }
+
+    private void makeStep(final Cell currentCell, final Cell targetCell, final WorldMap worldMap) {
+        worldMap.removeEntity(currentCell);
+        worldMap.putEntity(targetCell, this);
     }
 
     public void getDamage(final int damage) {
