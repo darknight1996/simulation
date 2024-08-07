@@ -23,14 +23,19 @@ public abstract class InitAction implements Action {
 
     @Override
     public void perform() {
-        final List<Cell> emptyCells = worldMap.getEmptyCells();
-        final int worldMapSize = worldMap.getHeight() * worldMap.getWidth();
-        final int cellsToFillCount = worldMapSize / fillFactor;
-        final List<Cell> cellsToFill = getRandomCells(emptyCells, cellsToFillCount);
+        final List<Cell> cellsToFill = getCellsToFill();
 
         for (Cell cell : cellsToFill) {
             worldMap.putEntity(cell, entityFactory.getEntity());
         }
+    }
+
+    private List<Cell> getCellsToFill() {
+        final List<Cell> emptyCells = worldMap.getEmptyCells();
+        final int worldMapSize = worldMap.getHeight() * worldMap.getWidth();
+        final int cellsToFillCount = worldMapSize / fillFactor;
+
+        return getRandomCells(emptyCells, cellsToFillCount);
     }
 
     private List<Cell> getRandomCells(final List<Cell> cells, final int randomCellsCount) {
