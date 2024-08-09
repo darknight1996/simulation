@@ -53,7 +53,10 @@ public class BFSPathFinderService implements PathFinderService {
 
     public Optional<Cell> getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
         return cellsToCheck(currentCell).stream()
-                .filter(cell -> worldMap.getEntity(cell).isPresent() && worldMap.getEntity(cell).get().getClass() == targetClass)
+                .filter(cell -> worldMap.getEntity(cell)
+                        .filter(entity -> entity.getClass() == targetClass)
+                        .isPresent()
+                )
                 .findFirst();
     }
 
