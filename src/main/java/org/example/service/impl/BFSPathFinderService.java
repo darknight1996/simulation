@@ -21,7 +21,7 @@ public class BFSPathFinderService implements PathFinderService {
         final Set<Cell> visited = new HashSet<>();
         final Deque<Cell> toVisit = new ArrayDeque<>();
         final Map<Cell,Cell> cellsToFromCells = new HashMap<>();
-        Cell target = null;
+        Optional<Cell> target = Optional.empty();
 
         toVisit.add(currentCell);
 
@@ -31,8 +31,8 @@ public class BFSPathFinderService implements PathFinderService {
 
             // check is target cell already within reach
             target = getTargetNear(nowVisiting, targetClass);
-            if (target != null) {
-                cellsToFromCells.put(target, nowVisiting);
+            if (target.isPresent()) {
+                cellsToFromCells.put(target.get(), nowVisiting);
                 break;
             }
 
@@ -46,32 +46,29 @@ public class BFSPathFinderService implements PathFinderService {
 
             toVisit.addAll(nextCellsToVisit);
         }
-        return restorePath(target, cellsToFromCells);
+
+        return target.map(cell -> restorePath(cell, cellsToFromCells))
+                .orElse(Collections.emptyList());
     }
 
-    public Cell getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
+    public Optional<Cell> getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
         return cellsToCheck(currentCell).stream()
-                .filter(cell -> worldMap.getEntity(cell) != null)
-                .filter(cell -> worldMap.getEntity(cell).getClass() == targetClass)
-                .findFirst().orElse(null);
+                .filter(cell -> worldMap.getEntity(cell).isPresent() && worldMap.getEntity(cell).get().getClass() == targetClass)
+                .findFirst();
     }
 
     private List<Cell> restorePath(final Cell target, final Map<Cell,Cell> cellsToFromCells) {
-        if (target != null) {
-            final List<Cell> path = new ArrayList<>();
-            Cell currentCell = target;
+        final List<Cell> path = new ArrayList<>();
+        Cell currentCell = target;
 
-            while (currentCell != null) {
-                path.add(currentCell);
-                currentCell = cellsToFromCells.get(currentCell);
-            }
-
-            path.remove(path.size() - 1);
-            Collections.reverse(path);
-            return path;
-        } else {
-            return Collections.emptyList();
+        while (currentCell != null) {
+            path.add(currentCell);
+            currentCell = cellsToFromCells.get(currentCell);
         }
+
+        path.remove(path.size() - 1);
+        Collections.reverse(path);
+        return path;
     }
 
     private List<Cell> emptyCellsNear(final Cell currentCell) {

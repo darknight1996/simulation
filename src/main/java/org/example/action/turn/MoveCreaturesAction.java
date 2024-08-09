@@ -25,6 +25,6 @@ public class MoveCreaturesAction implements Action {
     }
 
     private boolean isStillAlive(final Creature creature) {
-        return worldMap.getCellForEntity(creature) != null;
+        return worldMap.getCellForEntity(creature).isPresent();
     }
 }

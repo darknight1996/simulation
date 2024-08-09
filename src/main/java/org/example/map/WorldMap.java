@@ -6,6 +6,7 @@ import org.example.model.creature.Creature;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class WorldMap {
 
@@ -39,13 +40,11 @@ public class WorldMap {
                 .toList();
     }
 
-    public Cell getCellForEntity(final Entity entity) {
-        for (Map.Entry<Cell, Entity> entry : map.entrySet()) {
-            if (entry.getValue() != null && entry.getValue().equals(entity)) {
-                return entry.getKey();
-            }
-        }
-        return null;
+    public Optional<Cell> getCellForEntity(final Entity entity) {
+        return map.entrySet().stream()
+                .filter(entry -> entity.equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst();
     }
 
     public List<Creature> getAllCreatures() {
@@ -54,8 +53,8 @@ public class WorldMap {
                 .map(entity -> (Creature) entity).toList();
     }
 
-    public Entity getEntity(final Cell cell) {
-        return map.get(cell);
+    public Optional<Entity> getEntity(final Cell cell) {
+        return Optional.ofNullable(map.get(cell));
     }
 
     public void removeEntity(final Cell cell) {

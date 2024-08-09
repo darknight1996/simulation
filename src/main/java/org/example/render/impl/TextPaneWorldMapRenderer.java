@@ -40,10 +40,8 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
     private String getSignByCoordinates(final WorldMap worldMap, final int horizontalCoordinate, final int verticalCoordinate) {
         final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
-        final Entity entity = worldMap.getEntity(cell);
-        if (entity == null) {
-            return "\uD83C\uDF2B";
-        }
-        return entity.getSign();
+        return worldMap.getEntity(cell)
+                .map(Entity::getSign)
+                .orElse("🌫");
     }
 }
