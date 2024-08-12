@@ -6,6 +6,7 @@ import org.example.map.Cell;
 import org.example.map.WorldMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -39,14 +40,9 @@ public abstract class InitAction implements Action {
     }
 
     private List<Cell> getRandomCells(final List<Cell> cells, final int randomCellsCount) {
-        final Random random = new Random();
-        final List<Cell> randomCells = new ArrayList<>();
+        List<Cell> shuffledCells = new ArrayList<>(cells);
+        Collections.shuffle(shuffledCells);
 
-        for (int i = 0; i < randomCellsCount; i++) {
-            final Cell randomCell = cells.get(random.nextInt(cells.size()));
-            randomCells.add(randomCell);
-        }
-
-        return randomCells;
+        return shuffledCells.subList(0, Math.min(randomCellsCount, shuffledCells.size()));
     }
 }

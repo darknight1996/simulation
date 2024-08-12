@@ -50,7 +50,8 @@ public class WorldMap {
     public List<Creature> getAllCreatures() {
         return map.values().stream()
                 .filter(entity -> entity instanceof Creature)
-                .map(entity -> (Creature) entity).toList();
+                .map(entity -> (Creature) entity)
+                .toList();
     }
 
     public Optional<Entity> getEntity(final Cell cell) {
