@@ -40,9 +40,10 @@ public abstract class InitAction implements Action {
     }
 
     private List<Cell> getRandomCells(final List<Cell> cells, final int randomCellsCount) {
-        List<Cell> shuffledCells = new ArrayList<>(cells);
+        final List<Cell> shuffledCells = new ArrayList<>(cells);
         Collections.shuffle(shuffledCells);
 
-        return shuffledCells.subList(0, Math.min(randomCellsCount, shuffledCells.size()));
+        final int minOfCellsCountAndListSize = Math.min(randomCellsCount, shuffledCells.size());
+        return shuffledCells.subList(0, minOfCellsCountAndListSize);
     }
 }
