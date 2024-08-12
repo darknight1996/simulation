@@ -12,7 +12,7 @@ public class MoveCreaturesAction implements Action {
     private final WorldMapRenderer worldMapRenderer;
     private final PathFinderService pathFinderService;
 
-    public MoveCreaturesAction(WorldMap worldMap, final WorldMapRenderer worldMapRenderer,
+    public MoveCreaturesAction(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer,
                                final PathFinderService pathFinderService) {
         this.worldMap = worldMap;
         this.worldMapRenderer = worldMapRenderer;

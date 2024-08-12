@@ -13,12 +13,16 @@ public class Herbivore extends Creature {
     @Override
     protected void interactWithTarget(final WorldMap worldMap, final Cell targetCell) {
         worldMap.getEntity(targetCell)
-                .filter(entity -> entity instanceof Grass)
-                .map(entity -> (Grass) entity)
+                .filter(Grass.class::isInstance)
+                .map(Grass.class::cast)
                 .ifPresent(target -> {
-                    worldMap.removeEntity(targetCell);
-                    System.out.println(getSign() + " ate " + target.getSign());
+                    eatTarget(worldMap, targetCell, target);
                 });
+    }
+
+    private void eatTarget(final WorldMap worldMap, final Cell targetCell, final Grass target) {
+        worldMap.removeEntity(targetCell);
+        System.out.println(getSign() + " ate " + target.getSign());
     }
 
 }

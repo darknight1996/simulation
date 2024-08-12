@@ -15,17 +15,21 @@ public class Predator extends Creature {
     @Override
     protected void interactWithTarget(final WorldMap worldMap, final Cell targetCell) {
         worldMap.getEntity(targetCell)
-                .filter(entity -> entity instanceof Herbivore)
-                .map(entity -> (Herbivore) entity)
+                .filter(Herbivore.class::isInstance)
+                .map(Herbivore.class::cast)
                 .ifPresent(target -> {
-                    target.getDamage(attackPoints);
-                    System.out.println(getSign() + " attacked " + target.getSign());
-
-                    if (!target.isAlive()) {
-                        worldMap.removeEntity(targetCell);
-                        System.out.println(getSign() + " killed " + target.getSign());
-                    }
+                    attackTarget(worldMap, targetCell, target);
                 });
+    }
+
+    private void attackTarget(final WorldMap worldMap, final Cell targetCell, final Herbivore target) {
+        target.getDamage(attackPoints);
+        System.out.println(getSign() + " attacked " + target.getSign());
+
+        if (!target.isAlive()) {
+            worldMap.removeEntity(targetCell);
+            System.out.println(getSign() + " killed " + target.getSign());
+        }
     }
 
 }
