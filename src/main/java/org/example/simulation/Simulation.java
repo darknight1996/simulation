@@ -7,9 +7,11 @@ import org.example.action.init.environment.InitGrassAction;
 import org.example.action.init.environment.InitRockAction;
 import org.example.action.init.environment.InitTreeAction;
 import org.example.action.turn.MoveCreaturesAction;
-import org.example.map.WorldMap;
 import org.example.entity.creature.Creature;
+import org.example.map.WorldMap;
 import org.example.render.WorldMapRenderer;
+import org.example.service.PathFinderService;
+import org.example.service.impl.BFSPathFinderService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,9 @@ public class Simulation {
     private void createTurnActions() {
         turnActions = new ArrayList<>();
 
-        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer));
+        final PathFinderService pathFinderService = new BFSPathFinderService(worldMap);
+
+        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, pathFinderService));
     }
 
     private void initSimulation() {

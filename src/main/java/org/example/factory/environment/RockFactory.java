@@ -1,7 +1,7 @@
 package org.example.factory.environment;
 
-import org.example.factory.EntityFactory;
 import org.example.entity.environment.Rock;
+import org.example.factory.EntityFactory;
 
 public class RockFactory extends EntityFactory<Rock> {
 

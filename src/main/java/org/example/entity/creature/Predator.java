@@ -8,7 +8,7 @@ public class Predator extends Creature {
     private final int attackPoints;
 
     public Predator(final int speed, final int hitPoints, final int attackPoints) {
-        super("\uD83D\uDC05", speed, hitPoints, Herbivore.class);
+        super("🐅", speed, hitPoints, Herbivore.class);
         this.attackPoints = attackPoints;
     }
 

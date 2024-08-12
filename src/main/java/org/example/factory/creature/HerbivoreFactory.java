@@ -1,7 +1,7 @@
 package org.example.factory.creature;
 
-import org.example.factory.EntityFactory;
 import org.example.entity.creature.Herbivore;
+import org.example.factory.EntityFactory;
 
 public class HerbivoreFactory extends EntityFactory<Herbivore> {
 

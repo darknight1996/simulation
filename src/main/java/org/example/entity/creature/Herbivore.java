@@ -1,13 +1,13 @@
 package org.example.entity.creature;
 
+import org.example.entity.environment.Grass;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.entity.environment.Grass;
 
 public class Herbivore extends Creature {
 
     public Herbivore(final int speed, final int hitPoints) {
-        super("\uD83D\uDC24", speed, hitPoints, Grass.class);
+        super("🐤", speed, hitPoints, Grass.class);
     }
 
     @Override

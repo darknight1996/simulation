@@ -1,12 +1,12 @@
 package org.example.entity.creature;
 
+import org.example.entity.Entity;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.entity.Entity;
 import org.example.service.PathFinderService;
-import org.example.service.impl.BFSPathFinderService;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Creature extends Entity {
 
@@ -22,25 +22,25 @@ public abstract class Creature extends Entity {
         this.targetClass = targetClass;
     }
 
-    public void makeMove(final WorldMap worldMap, final Runnable onMoveAction) {
-        final PathFinderService pathFinderService = new BFSPathFinderService(worldMap);
+    public void makeMove(final WorldMap worldMap, final PathFinderService pathFinderService, final Runnable onMoveAction) {
         final Cell currentCell = worldMap.getCellForEntity(this)
                 .orElseThrow(() -> new RuntimeException("Entity not found in WorldMap"));
 
-        pathFinderService.getTargetNear(currentCell, targetClass).ifPresentOrElse(
-                targetCell -> {
-                    interactWithTarget(worldMap, targetCell);
-                    onMoveAction.run();
-                },
-                () -> {
-                    final List<Cell> path = pathFinderService.findPath(currentCell, targetClass);
-                    if (path.isEmpty()) {
-                        hasNoTarget = true;
-                    } else {
-                        makeSteps(worldMap, path, onMoveAction);
-                    }
-                }
-        );
+        final Optional<Cell> targetCell = pathFinderService.getTargetNear(currentCell, targetClass);
+
+        if (targetCell.isPresent()) {
+            interactWithTarget(worldMap, targetCell.get());
+            onMoveAction.run();
+            return;
+        }
+
+        final List<Cell> path = pathFinderService.findPath(currentCell, targetClass);
+
+        if (path.isEmpty()) {
+            hasNoTarget = true;
+        } else {
+            makeSteps(worldMap, path, onMoveAction);
+        }
     }
 
     protected abstract void interactWithTarget(final WorldMap worldMap, final Cell targetCell);

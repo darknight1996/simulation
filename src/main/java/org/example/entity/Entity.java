@@ -4,7 +4,7 @@ public abstract class Entity {
 
     private final String sign;
 
-    protected Entity(final String sign) {
+    public Entity(final String sign) {
         this.sign = sign;
     }
 
