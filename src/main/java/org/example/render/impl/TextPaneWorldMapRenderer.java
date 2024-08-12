@@ -2,7 +2,7 @@ package org.example.render.impl;
 
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.model.Entity;
+import org.example.entity.Entity;
 import org.example.render.WorldMapRenderer;
 
 import javax.swing.*;

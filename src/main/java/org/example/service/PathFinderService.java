@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.map.Cell;
-import org.example.model.Entity;
+import org.example.entity.Entity;
 
 import java.util.List;
 import java.util.Optional;

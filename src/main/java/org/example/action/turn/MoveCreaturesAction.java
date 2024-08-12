@@ -2,7 +2,7 @@ package org.example.action.turn;
 
 import org.example.action.Action;
 import org.example.map.WorldMap;
-import org.example.model.creature.Creature;
+import org.example.entity.creature.Creature;
 import org.example.render.WorldMapRenderer;
 
 public class MoveCreaturesAction implements Action {

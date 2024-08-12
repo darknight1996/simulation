@@ -1,8 +1,8 @@
-package org.example.model.creature;
+package org.example.entity.creature;
 
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.model.environment.Grass;
+import org.example.entity.environment.Grass;
 
 public class Herbivore extends Creature {
 

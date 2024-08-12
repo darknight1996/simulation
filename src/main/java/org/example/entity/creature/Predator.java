@@ -1,4 +1,4 @@
-package org.example.model.creature;
+package org.example.entity.creature;
 
 import org.example.map.Cell;
 import org.example.map.WorldMap;

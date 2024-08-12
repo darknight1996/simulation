@@ -8,7 +8,7 @@ import org.example.action.init.environment.InitRockAction;
 import org.example.action.init.environment.InitTreeAction;
 import org.example.action.turn.MoveCreaturesAction;
 import org.example.map.WorldMap;
-import org.example.model.creature.Creature;
+import org.example.entity.creature.Creature;
 import org.example.render.WorldMapRenderer;
 
 import java.util.ArrayList;

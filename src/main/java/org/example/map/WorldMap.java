@@ -1,7 +1,7 @@
 package org.example.map;
 
-import org.example.model.Entity;
-import org.example.model.creature.Creature;
+import org.example.entity.Entity;
+import org.example.entity.creature.Creature;
 
 import java.util.HashMap;
 import java.util.List;

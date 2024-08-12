@@ -1,6 +1,6 @@
 package org.example.factory;
 
-import org.example.model.Entity;
+import org.example.entity.Entity;
 
 public abstract class EntityFactory<T extends Entity> {
 

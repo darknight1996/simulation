@@ -1,6 +1,6 @@
-package org.example.model.environment;
+package org.example.entity.environment;
 
-import org.example.model.Entity;
+import org.example.entity.Entity;
 
 public class Grass extends Entity {
 

@@ -1,8 +1,8 @@
-package org.example.model.creature;
+package org.example.entity.creature;
 
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.model.Entity;
+import org.example.entity.Entity;
 import org.example.service.PathFinderService;
 import org.example.service.impl.BFSPathFinderService;
 
