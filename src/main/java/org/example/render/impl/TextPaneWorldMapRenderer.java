@@ -9,6 +9,10 @@ import javax.swing.*;
 
 public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
+    private final static String LINE_SEPARATOR = "\n";
+    private final static String EMPTY_AREA_SIGN = "🌫";
+    private final static int RENDER_TACT_TIME_IN_MS = 500;
+
     private final JTextPane textPane;
 
     public TextPaneWorldMapRenderer(final JTextPane textPane) {
@@ -17,11 +21,8 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
     @Override
     public void render(final WorldMap worldMap) {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        delay();
+
         final int width = worldMap.getWidth();
         final int height = worldMap.getHeight();
 
@@ -32,16 +33,24 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
                 final String sign = getSignByCoordinates(worldMap, horizontalCoordinate, verticalCoordinate);
                 worldMapContent.append(sign);
             }
-            worldMapContent.append("\n");
+            worldMapContent.append(LINE_SEPARATOR);
         }
 
         textPane.setText(worldMapContent.toString());
+    }
+
+    private void delay() {
+        try {
+            Thread.sleep(RENDER_TACT_TIME_IN_MS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String getSignByCoordinates(final WorldMap worldMap, final int horizontalCoordinate, final int verticalCoordinate) {
         final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
         return worldMap.getEntity(cell)
                 .map(Entity::getSign)
-                .orElse("🌫");
+                .orElse(EMPTY_AREA_SIGN);
     }
 }
