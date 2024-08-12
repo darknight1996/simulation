@@ -13,14 +13,14 @@ public class BFSPathFinderService implements PathFinderService {
 
     private final WorldMap worldMap;
 
-    public BFSPathFinderService(WorldMap worldMap) {
+    public BFSPathFinderService(final WorldMap worldMap) {
         this.worldMap = worldMap;
     }
 
     public List<Cell> findPath(final Cell currentCell, final Class<? extends Entity> targetClass) {
         final Set<Cell> visited = new HashSet<>();
         final Deque<Cell> toVisit = new ArrayDeque<>();
-        final Map<Cell,Cell> cellsToFromCells = new HashMap<>();
+        final Map<Cell, Cell> cellsToFromCells = new HashMap<>();
         Optional<Cell> target = Optional.empty();
 
         toVisit.add(currentCell);
@@ -83,14 +83,14 @@ public class BFSPathFinderService implements PathFinderService {
 
     private Set<Cell> cellsToCheck(final Cell currentCell) {
         return Stream.of(
-                new Cell(currentCell.getHorizontalCoordinate() - 1, currentCell.getVerticalCoordinate() - 1),
-                new Cell(currentCell.getHorizontalCoordinate() - 1, currentCell.getVerticalCoordinate()),
-                new Cell(currentCell.getHorizontalCoordinate() - 1, currentCell.getVerticalCoordinate() + 1),
-                new Cell(currentCell.getHorizontalCoordinate(), currentCell.getVerticalCoordinate() + 1),
-                new Cell(currentCell.getHorizontalCoordinate() + 1, currentCell.getVerticalCoordinate() + 1),
-                new Cell(currentCell.getHorizontalCoordinate() + 1, currentCell.getVerticalCoordinate()),
-                new Cell(currentCell.getHorizontalCoordinate() + 1, currentCell.getVerticalCoordinate() - 1),
-                new Cell(currentCell.getHorizontalCoordinate(), currentCell.getVerticalCoordinate() - 1)
+                new Cell(currentCell.x() - 1, currentCell.y() - 1),
+                new Cell(currentCell.x() - 1, currentCell.y()),
+                new Cell(currentCell.x() - 1, currentCell.y() + 1),
+                new Cell(currentCell.x(), currentCell.y() + 1),
+                new Cell(currentCell.x() + 1, currentCell.y() + 1),
+                new Cell(currentCell.x() + 1, currentCell.y()),
+                new Cell(currentCell.x() + 1, currentCell.y() - 1),
+                new Cell(currentCell.x(), currentCell.y() - 1)
             ).collect(Collectors.toSet());
     }
 }

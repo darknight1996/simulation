@@ -22,9 +22,9 @@ public class WorldMap {
     }
 
     private void initWorldMap(final int width, final int height) {
-        for (int verticalCoordinate = 0; verticalCoordinate < height; verticalCoordinate++) {
-            for (int horizontalCoordinate = 0; horizontalCoordinate < width; horizontalCoordinate++) {
-                final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                final Cell cell = new Cell(x, y);
                 map.put(cell, null);
             }
         }

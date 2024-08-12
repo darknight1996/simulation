@@ -17,9 +17,9 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
         final int width = worldMap.getWidth();
         final int height = worldMap.getHeight();
 
-        for (int verticalCoordinate = 0; verticalCoordinate < height; verticalCoordinate++) {
-            for (int horizontalCoordinate = 0; horizontalCoordinate < width; horizontalCoordinate++) {
-                final String sign = getSignByCoordinates(worldMap, horizontalCoordinate, verticalCoordinate);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                final String sign = getSignByCoordinates(worldMap, x, y);
                 System.out.print(sign);
             }
             System.out.println("\r");
@@ -27,8 +27,8 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
         System.out.println("------------------------------------------------------------------------------");
     }
 
-    private String getSignByCoordinates(final WorldMap worldMap, final int horizontalCoordinate, final int verticalCoordinate) {
-        final Cell cell = new Cell(horizontalCoordinate, verticalCoordinate);
+    private String getSignByCoordinates(final WorldMap worldMap, final int x, final int y) {
+        final Cell cell = new Cell(x, y);
         return worldMap.getEntity(cell)
                 .map(Entity::getSign)
                 .orElse("🌀");
