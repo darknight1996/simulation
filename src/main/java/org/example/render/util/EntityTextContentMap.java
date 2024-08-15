@@ -7,23 +7,28 @@ import org.example.entity.environment.Grass;
 import org.example.entity.environment.Rock;
 import org.example.entity.environment.Tree;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EntityTextContentMap {
 
-    private final Map<Class<? extends Entity>, String> map = new HashMap<>();
+    private final Map<Class<? extends Entity>, String> map;
 
     public EntityTextContentMap() {
-        init();
+        this.map = initializeMap();
     }
 
-    private void init() {
-        map.put(Grass.class, EntityTextContent.GRASS.getContent());
-        map.put(Rock.class, EntityTextContent.ROCK.getContent());
-        map.put(Tree.class, EntityTextContent.TREE.getContent());
-        map.put(Herbivore.class, EntityTextContent.HERBIVORE.getContent());
-        map.put(Predator.class, EntityTextContent.PREDATOR.getContent());
+    private Map<Class<? extends Entity>, String> initializeMap() {
+        Map<Class<? extends Entity>, String> tempMap = new HashMap<>();
+
+        tempMap.put(Grass.class, EntityTextContent.GRASS.getContent());
+        tempMap.put(Rock.class, EntityTextContent.ROCK.getContent());
+        tempMap.put(Tree.class, EntityTextContent.TREE.getContent());
+        tempMap.put(Herbivore.class, EntityTextContent.HERBIVORE.getContent());
+        tempMap.put(Predator.class, EntityTextContent.PREDATOR.getContent());
+
+        return Collections.unmodifiableMap(tempMap);
     }
 
 
