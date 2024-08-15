@@ -4,8 +4,4 @@ import org.example.entity.Entity;
 
 public class Grass extends Entity {
 
-    public Grass() {
-        super("🌿");
-    }
-
 }

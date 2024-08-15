@@ -1,9 +1,9 @@
 package org.example.render.impl;
 
-import org.example.entity.Entity;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
 import org.example.render.WorldMapRenderer;
+import org.example.render.util.EntityTextContentMap;
 
 import javax.swing.*;
 
@@ -13,6 +13,7 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
     private final static String EMPTY_AREA_SIGN = "🌫";
     private final static int RENDER_TACT_TIME_IN_MS = 500;
 
+    private final EntityTextContentMap entityTextContentMap = new EntityTextContentMap();
     private final JTextPane textPane;
 
     public TextPaneWorldMapRenderer(final JTextPane textPane) {
@@ -50,7 +51,7 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
     private String getSignByCoordinates(final WorldMap worldMap, final int x, final int y) {
         final Cell cell = new Cell(x, y);
         return worldMap.getEntity(cell)
-                .map(Entity::getSign)
+                .map(entity -> entityTextContentMap.get(entity.getClass()))
                 .orElse(EMPTY_AREA_SIGN);
     }
 }

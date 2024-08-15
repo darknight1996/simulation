@@ -15,8 +15,7 @@ public abstract class Creature extends Entity {
     private final Class<? extends Entity> targetClass;
     private boolean hasNoTarget;
 
-    protected Creature(final String sign, final int speed, final int hitPoints, final Class<? extends Entity> targetClass) {
-        super(sign);
+    protected Creature(final int speed, final int hitPoints, final Class<? extends Entity> targetClass) {
         this.speed = speed;
         this.hitPoints = hitPoints;
         this.targetClass = targetClass;
@@ -57,7 +56,7 @@ public abstract class Creature extends Entity {
             final Cell targetCell = path.get(i);
             makeStep(currentCell, targetCell, worldMap);
             onMoveAction.run();
-            System.out.println(getSign() + " moving to " + path.get(i));
+            System.out.println(this + " moving to " + path.get(i));
         }
     }
 

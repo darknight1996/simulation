@@ -2,14 +2,8 @@ package org.example.entity;
 
 public abstract class Entity {
 
-    private final String sign;
-
-    public Entity(final String sign) {
-        this.sign = sign;
+    @Override
+    public String toString() {
+        return "<" + this.getClass().getSimpleName() + ">";
     }
-
-    public String getSign() {
-        return sign;
-    }
-
 }

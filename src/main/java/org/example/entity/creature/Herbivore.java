@@ -7,7 +7,7 @@ import org.example.map.WorldMap;
 public class Herbivore extends Creature {
 
     public Herbivore(final int speed, final int hitPoints) {
-        super("🐤", speed, hitPoints, Grass.class);
+        super(speed, hitPoints, Grass.class);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Herbivore extends Creature {
 
     private void eatTarget(final WorldMap worldMap, final Cell targetCell, final Grass target) {
         worldMap.removeEntity(targetCell);
-        System.out.println(getSign() + " ate " + target.getSign());
+        System.out.println(this + " ate " + target);
     }
 
 }

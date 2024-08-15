@@ -8,7 +8,7 @@ public class Predator extends Creature {
     private final int attackPoints;
 
     public Predator(final int speed, final int hitPoints, final int attackPoints) {
-        super("🐅", speed, hitPoints, Herbivore.class);
+        super(speed, hitPoints, Herbivore.class);
         this.attackPoints = attackPoints;
     }
 
@@ -24,11 +24,11 @@ public class Predator extends Creature {
 
     private void attackTarget(final WorldMap worldMap, final Cell targetCell, final Herbivore target) {
         target.getDamage(attackPoints);
-        System.out.println(getSign() + " attacked " + target.getSign());
+        System.out.println(this + " attacked " + target);
 
         if (!target.isAlive()) {
             worldMap.removeEntity(targetCell);
-            System.out.println(getSign() + " killed " + target.getSign());
+            System.out.println(this + " killed " + target);
         }
     }
 
