@@ -11,4 +11,5 @@ public class InitRockAction extends InitAction {
     public InitRockAction(final WorldMap worldMap) {
         super(worldMap, new RockFactory(), FILL_FACTOR);
     }
+
 }

@@ -93,4 +93,5 @@ public class BFSPathFinderService implements PathFinderService {
                 new Cell(currentCell.x(), currentCell.y() - 1)
             ).collect(Collectors.toSet());
     }
+
 }

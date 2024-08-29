@@ -85,4 +85,5 @@ public class SimulationFrame extends JFrame {
         final WorldMap worldMap = new WorldMap(20, 10);
         simulation = new Simulation(worldMap, worldMapRenderer);
     }
+
 }

@@ -76,4 +76,5 @@ public abstract class Creature extends Entity {
     public boolean isHasNoTarget() {
         return hasNoTarget;
     }
+
 }

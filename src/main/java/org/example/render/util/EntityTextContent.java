@@ -17,4 +17,5 @@ public enum EntityTextContent {
     public String getContent() {
         return content;
     }
+
 }

@@ -54,4 +54,5 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
                 .map(entity -> entityTextContentMap.get(entity.getClass()))
                 .orElse(EMPTY_AREA_SIGN);
     }
+
 }

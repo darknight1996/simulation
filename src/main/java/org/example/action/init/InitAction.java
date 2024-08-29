@@ -45,4 +45,5 @@ public abstract class InitAction implements Action {
         final int minOfCellsCountAndListSize = Math.min(randomCellsCount, shuffledCells.size());
         return shuffledCells.subList(0, minOfCellsCountAndListSize);
     }
+
 }

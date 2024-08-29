@@ -11,4 +11,5 @@ public class InitPredatorAction extends InitAction {
     public InitPredatorAction(final WorldMap worldMap) {
         super(worldMap, new PredatorFactory(), FILL_FACTOR);
     }
+
 }

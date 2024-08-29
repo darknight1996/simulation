@@ -6,4 +6,5 @@ public abstract class Entity {
     public String toString() {
         return "<" + this.getClass().getSimpleName() + ">";
     }
+
 }

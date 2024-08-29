@@ -11,4 +11,5 @@ public class InitTreeAction extends InitAction {
     public InitTreeAction(final WorldMap worldMap) {
         super(worldMap, new TreeFactory(), FILL_FACTOR);
     }
+
 }
