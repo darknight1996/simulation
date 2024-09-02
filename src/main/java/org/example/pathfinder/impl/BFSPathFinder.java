@@ -51,7 +51,7 @@ public class BFSPathFinder implements PathFinder {
                 .orElse(Collections.emptyList());
     }
 
-    public Optional<Cell> getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
+    private Optional<Cell> getTargetNear(final Cell currentCell, final Class<? extends Entity> targetClass) {
         return cellsToCheck(currentCell).stream()
                 .filter(cell -> worldMap.getEntity(cell)
                         .filter(entity -> entity.getClass() == targetClass)
@@ -76,21 +76,26 @@ public class BFSPathFinder implements PathFinder {
 
     private List<Cell> emptyCellsNear(final Cell currentCell) {
         return cellsToCheck(currentCell).stream()
-                .filter(cell -> worldMap.getEntity(cell).isEmpty())
+                .filter(worldMap::isCellEmpty)
                 .toList();
     }
 
     private Set<Cell> cellsToCheck(final Cell currentCell) {
-        return Stream.of(
-                new Cell(currentCell.x() - 1, currentCell.y() - 1),
-                new Cell(currentCell.x() - 1, currentCell.y()),
-                new Cell(currentCell.x() - 1, currentCell.y() + 1),
-                new Cell(currentCell.x(), currentCell.y() + 1),
-                new Cell(currentCell.x() + 1, currentCell.y() + 1),
-                new Cell(currentCell.x() + 1, currentCell.y()),
-                new Cell(currentCell.x() + 1, currentCell.y() - 1),
-                new Cell(currentCell.x(), currentCell.y() - 1)
-            ).filter(worldMap::isCellWithinMap).collect(Collectors.toSet());
+        final int[][] directions = {
+                {-1, -1}, {0, -1},
+                {1, -1}, {1, 0},
+                {1, 1}, {0, 1},
+                {-1, 1}, {-1, 0}
+        };
+
+        return Arrays.stream(directions)
+                .map(direction -> createNeighborCell(currentCell, direction))
+                .filter(worldMap::isCellWithinMap)
+                .collect(Collectors.toSet());
+    }
+
+    private Cell createNeighborCell(final Cell currentCell, final int[] direction) {
+        return new Cell(currentCell.x() + direction[0], currentCell.y() + direction[1]);
     }
 
 }

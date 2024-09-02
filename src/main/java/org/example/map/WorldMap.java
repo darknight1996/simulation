@@ -50,6 +50,10 @@ public class WorldMap {
         map.remove(cell);
     }
 
+    public boolean isCellEmpty(final Cell cell) {
+        return map.get(cell) == null;
+    }
+
     public int getWidth() {
         return width;
     }

@@ -6,7 +6,6 @@ import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
 
 import java.util.List;
-import java.util.Optional;
 
 public abstract class Creature extends Entity {
 
@@ -22,24 +21,30 @@ public abstract class Creature extends Entity {
     }
 
     public void makeMove(final WorldMap worldMap, final PathFinder pathFinder, final Runnable onMoveAction) {
-        final Cell currentCell = worldMap.getCellForEntity(this)
-                .orElseThrow(() -> new RuntimeException("Entity not found in WorldMap"));
-
-        final Optional<Cell> targetCell = pathFinder.getTargetNear(currentCell, targetClass);
-
-        if (targetCell.isPresent()) {
-            interactWithTarget(worldMap, targetCell.get());
-            onMoveAction.run();
-            return;
-        }
-
+        final Cell currentCell = getCurrentCell(worldMap);
         final List<Cell> path = pathFinder.findPath(currentCell, targetClass);
 
         if (path.isEmpty()) {
-            hasNoTarget = true;
+            handleNoPath();
+        } else if (path.size() == 1) {
+            handleSingleStep(worldMap, path.get(0), onMoveAction);
         } else {
             makeSteps(worldMap, path, onMoveAction);
         }
+    }
+
+    private Cell getCurrentCell(final WorldMap worldMap) {
+        return worldMap.getCellForEntity(this)
+                .orElseThrow(() -> new RuntimeException("Entity not found in WorldMap"));
+    }
+
+    private void handleNoPath() {
+        hasNoTarget = true;
+    }
+
+    private void handleSingleStep(final WorldMap worldMap, final Cell targetCell, final Runnable onMoveAction) {
+        interactWithTarget(worldMap, targetCell);
+        onMoveAction.run();
     }
 
     protected abstract void interactWithTarget(final WorldMap worldMap, final Cell targetCell);
@@ -51,8 +56,7 @@ public abstract class Creature extends Entity {
 
         final int minOfPathAndSpeed = Math.min(speed, path.size());
         for (int i = 0; i < minOfPathAndSpeed; i++) {
-            final Cell currentCell = worldMap.getCellForEntity(this)
-                    .orElseThrow(() -> new RuntimeException("Entity not found in WorldMap"));
+            final Cell currentCell = getCurrentCell(worldMap);
             final Cell targetCell = path.get(i);
             makeStep(currentCell, targetCell, worldMap);
             onMoveAction.run();
