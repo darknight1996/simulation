@@ -75,9 +75,8 @@ public class BFSPathFinder implements PathFinder {
     }
 
     private List<Cell> emptyCellsNear(final Cell currentCell) {
-        final List<Cell> emptyCells = worldMap.getEmptyCells();
         return cellsToCheck(currentCell).stream()
-                .filter(emptyCells::contains)
+                .filter(cell -> worldMap.getEntity(cell).isEmpty())
                 .toList();
     }
 
@@ -91,7 +90,7 @@ public class BFSPathFinder implements PathFinder {
                 new Cell(currentCell.x() + 1, currentCell.y()),
                 new Cell(currentCell.x() + 1, currentCell.y() - 1),
                 new Cell(currentCell.x(), currentCell.y() - 1)
-            ).collect(Collectors.toSet());
+            ).filter(worldMap::isCellWithinMap).collect(Collectors.toSet());
     }
 
 }

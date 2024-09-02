@@ -7,11 +7,12 @@ import org.example.action.init.environment.InitGrassAction;
 import org.example.action.init.environment.InitRockAction;
 import org.example.action.init.environment.InitTreeAction;
 import org.example.action.turn.MoveCreaturesAction;
+import org.example.entity.Entity;
 import org.example.entity.creature.Creature;
 import org.example.map.WorldMap;
-import org.example.render.WorldMapRenderer;
 import org.example.pathfinder.PathFinder;
 import org.example.pathfinder.impl.BFSPathFinder;
+import org.example.render.WorldMapRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,11 @@ public class Simulation {
     }
 
     private boolean anyCreatureHasTarget() {
-        final List<Creature> creatures = worldMap.getAllCreatures();
+        final List<Entity> entities = worldMap.getAllEntities();
+        final List<Creature> creatures = entities.stream()
+                .filter(entity -> entity instanceof Creature)
+                .map(entity -> (Creature) entity)
+                .toList();
         return creatures.stream()
                 .anyMatch(creature -> !creature.isHasNoTarget());
     }

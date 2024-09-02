@@ -1,7 +1,6 @@
 package org.example.map;
 
 import org.example.entity.Entity;
-import org.example.entity.creature.Creature;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,26 +17,10 @@ public class WorldMap {
         this.width = width;
         this.height = height;
         this.map = new HashMap<>();
-        initWorldMap(width, height);
-    }
-
-    private void initWorldMap(final int width, final int height) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                final Cell cell = new Cell(x, y);
-                map.put(cell, null);
-            }
-        }
     }
 
     public void putEntity(final Cell cell, final Entity entity) {
         map.put(cell, entity);
-    }
-
-    public List<Cell> getEmptyCells() {
-        return map.keySet().stream()
-                .filter(cell -> map.get(cell) == null)
-                .toList();
     }
 
     public Optional<Cell> getCellForEntity(final Entity entity) {
@@ -47,10 +30,15 @@ public class WorldMap {
                 .findFirst();
     }
 
-    public List<Creature> getAllCreatures() {
+    public boolean isCellWithinMap(final Cell cell) {
+        final boolean isWithinWidth = cell.x() >= 0 && cell.x() < width;
+        final boolean isWithinHeight = cell.y() >= 0 && cell.y() < height;
+
+        return isWithinWidth && isWithinHeight;
+    }
+
+    public List<Entity> getAllEntities() {
         return map.values().stream()
-                .filter(entity -> entity instanceof Creature)
-                .map(entity -> (Creature) entity)
                 .toList();
     }
 
@@ -59,7 +47,7 @@ public class WorldMap {
     }
 
     public void removeEntity(final Cell cell) {
-        map.put(cell, null);
+        map.remove(cell);
     }
 
     public int getWidth() {
