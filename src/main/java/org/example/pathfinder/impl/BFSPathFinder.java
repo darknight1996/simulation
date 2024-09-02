@@ -1,19 +1,19 @@
-package org.example.service.impl;
+package org.example.pathfinder.impl;
 
 import org.example.entity.Entity;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.service.PathFinderService;
+import org.example.pathfinder.PathFinder;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BFSPathFinderService implements PathFinderService {
+public class BFSPathFinder implements PathFinder {
 
     private final WorldMap worldMap;
 
-    public BFSPathFinderService(final WorldMap worldMap) {
+    public BFSPathFinder(final WorldMap worldMap) {
         this.worldMap = worldMap;
     }
 

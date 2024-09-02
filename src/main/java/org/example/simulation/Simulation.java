@@ -10,8 +10,8 @@ import org.example.action.turn.MoveCreaturesAction;
 import org.example.entity.creature.Creature;
 import org.example.map.WorldMap;
 import org.example.render.WorldMapRenderer;
-import org.example.service.PathFinderService;
-import org.example.service.impl.BFSPathFinderService;
+import org.example.pathfinder.PathFinder;
+import org.example.pathfinder.impl.BFSPathFinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +52,9 @@ public class Simulation {
     private void createTurnActions() {
         turnActions = new ArrayList<>();
 
-        final PathFinderService pathFinderService = new BFSPathFinderService(worldMap);
+        final PathFinder pathFinder = new BFSPathFinder(worldMap);
 
-        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, pathFinderService));
+        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, pathFinder));
     }
 
     private void initSimulation() {

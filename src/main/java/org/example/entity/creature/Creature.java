@@ -3,7 +3,7 @@ package org.example.entity.creature;
 import org.example.entity.Entity;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
-import org.example.service.PathFinderService;
+import org.example.pathfinder.PathFinder;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +21,11 @@ public abstract class Creature extends Entity {
         this.targetClass = targetClass;
     }
 
-    public void makeMove(final WorldMap worldMap, final PathFinderService pathFinderService, final Runnable onMoveAction) {
+    public void makeMove(final WorldMap worldMap, final PathFinder pathFinder, final Runnable onMoveAction) {
         final Cell currentCell = worldMap.getCellForEntity(this)
                 .orElseThrow(() -> new RuntimeException("Entity not found in WorldMap"));
 
-        final Optional<Cell> targetCell = pathFinderService.getTargetNear(currentCell, targetClass);
+        final Optional<Cell> targetCell = pathFinder.getTargetNear(currentCell, targetClass);
 
         if (targetCell.isPresent()) {
             interactWithTarget(worldMap, targetCell.get());
@@ -33,7 +33,7 @@ public abstract class Creature extends Entity {
             return;
         }
 
-        final List<Cell> path = pathFinderService.findPath(currentCell, targetClass);
+        final List<Cell> path = pathFinder.findPath(currentCell, targetClass);
 
         if (path.isEmpty()) {
             hasNoTarget = true;
