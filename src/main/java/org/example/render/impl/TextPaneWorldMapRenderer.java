@@ -31,8 +31,8 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                final String sign = getSignByCoordinates(worldMap, x, y);
-                worldMapContent.append(sign);
+                final String sprite = getSpriteByCoordinates(worldMap, x, y);
+                worldMapContent.append(sprite);
             }
             worldMapContent.append(LINE_SEPARATOR);
         }
@@ -48,7 +48,7 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
         }
     }
 
-    private String getSignByCoordinates(final WorldMap worldMap, final int x, final int y) {
+    private String getSpriteByCoordinates(final WorldMap worldMap, final int x, final int y) {
         final Cell cell = new Cell(x, y);
         return worldMap.getEntity(cell)
                 .map(entity -> entityTextContentMap.get(entity.getClass()))

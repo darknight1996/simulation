@@ -30,8 +30,7 @@ public class EntityTextContentMap {
 
         return Collections.unmodifiableMap(tempMap);
     }
-
-
+    
     public String get(final Class<? extends Entity> entityClass) {
         return map.get(entityClass);
     }
