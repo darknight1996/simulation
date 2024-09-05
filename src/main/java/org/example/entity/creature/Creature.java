@@ -6,6 +6,7 @@ import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class Creature extends Entity {
 
@@ -20,16 +21,17 @@ public abstract class Creature extends Entity {
         this.targetClass = targetClass;
     }
 
-    public void makeMove(final WorldMap worldMap, final PathFinder pathFinder, final Runnable onMoveAction) {
+    public void makeMove(final WorldMap worldMap, final PathFinder pathFinder, final Runnable onMoveAction,
+                         final Consumer<String> onActionTextConsumer) {
         final Cell currentCell = getCurrentCell(worldMap);
         final List<Cell> path = pathFinder.findPath(currentCell, targetClass);
 
         if (path.isEmpty()) {
             handleNoPath();
         } else if (path.size() == 1) {
-            handleSingleStep(worldMap, path.get(0), onMoveAction);
+            handleSingleStep(worldMap, path.get(0), onMoveAction, onActionTextConsumer);
         } else {
-            makeSteps(worldMap, path, onMoveAction);
+            makeSteps(worldMap, path, onMoveAction, onActionTextConsumer);
         }
     }
 
@@ -42,14 +44,17 @@ public abstract class Creature extends Entity {
         hasNoTarget = true;
     }
 
-    private void handleSingleStep(final WorldMap worldMap, final Cell targetCell, final Runnable onMoveAction) {
-        interactWithTarget(worldMap, targetCell);
+    private void handleSingleStep(final WorldMap worldMap, final Cell targetCell, final Runnable onMoveAction,
+                                  final Consumer<String> onActionTextConsumer) {
+        interactWithTarget(worldMap, targetCell, onActionTextConsumer);
         onMoveAction.run();
     }
 
-    protected abstract void interactWithTarget(final WorldMap worldMap, final Cell targetCell);
+    protected abstract void interactWithTarget(final WorldMap worldMap, final Cell targetCell,
+                                               final Consumer<String> onActionText);
 
-    private void makeSteps(final WorldMap worldMap, final List<Cell> path, final Runnable onMoveAction) {
+    private void makeSteps(final WorldMap worldMap, final List<Cell> path, final Runnable onMoveAction,
+                           final Consumer<String> onActionTextConsumer) {
         if (!path.isEmpty()) {
             path.remove(path.size() - 1);
         }
@@ -60,7 +65,7 @@ public abstract class Creature extends Entity {
             final Cell targetCell = path.get(i);
             makeStep(currentCell, targetCell, worldMap);
             onMoveAction.run();
-            System.out.println(this + " moving to " + path.get(i));
+            onActionTextConsumer.accept(this + " moving to " + path.get(i));
         }
     }
 

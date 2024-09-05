@@ -37,6 +37,10 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
             worldMapContent.append(LINE_SEPARATOR);
         }
 
+        if (!worldMapContent.isEmpty()) {
+            worldMapContent.setLength(worldMapContent.length() - LINE_SEPARATOR.length());
+        }
+
         textPane.setText(worldMapContent.toString());
     }
 

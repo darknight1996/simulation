@@ -7,7 +7,6 @@ import org.example.pathfinder.PathFinder;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BFSPathFinder implements PathFinder {
 

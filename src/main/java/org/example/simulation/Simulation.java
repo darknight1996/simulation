@@ -12,6 +12,7 @@ import org.example.entity.creature.Creature;
 import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
 import org.example.pathfinder.impl.BFSPathFinder;
+import org.example.render.LogRenderer;
 import org.example.render.WorldMapRenderer;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Simulation {
 
     private final WorldMap worldMap;
     private final WorldMapRenderer worldMapRenderer;
+    private final LogRenderer logRenderer;
 
     private List<Action> initActions;
     private List<Action> turnActions;
@@ -29,9 +31,10 @@ public class Simulation {
     private Thread thread;
     private boolean isStopRequested = false;
 
-    public Simulation(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer) {
+    public Simulation(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer, final LogRenderer logRenderer) {
         this.worldMap = worldMap;
         this.worldMapRenderer = worldMapRenderer;
+        this.logRenderer = logRenderer;
 
         createInitActions();
         createTurnActions();
@@ -55,7 +58,7 @@ public class Simulation {
 
         final PathFinder pathFinder = new BFSPathFinder(worldMap);
 
-        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, pathFinder));
+        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, logRenderer, pathFinder));
     }
 
     private void initSimulation() {
@@ -75,14 +78,14 @@ public class Simulation {
         thread = new Thread(() -> {
             while (anyCreatureHasTarget()) {
                 if (!isStopRequested()) {
-                    System.out.println("current turn is " + ++turnCounter);
+                    logRenderer.render("current turn is " + ++turnCounter);
 
                     for (Action turnAction : turnActions) {
                         turnAction.perform();
                     }
                 }
             }
-            System.out.println("simulation ended after " + turnCounter + " turns");
+            logRenderer.render("simulation ended after " + turnCounter + " turns");
         });
 
         thread.start();

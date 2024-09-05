@@ -3,6 +3,8 @@ package org.example.entity.creature;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
 
+import java.util.function.Consumer;
+
 public class Predator extends Creature {
 
     private final int attackPoints;
@@ -13,22 +15,24 @@ public class Predator extends Creature {
     }
 
     @Override
-    protected void interactWithTarget(final WorldMap worldMap, final Cell targetCell) {
+    protected void interactWithTarget(final WorldMap worldMap, final Cell targetCell,
+                                      final Consumer<String> onActionTextConsumer) {
         worldMap.getEntity(targetCell)
                 .filter(Herbivore.class::isInstance)
                 .map(Herbivore.class::cast)
                 .ifPresent(target -> {
-                    attackTarget(worldMap, targetCell, target);
+                    attackTarget(worldMap, targetCell, target, onActionTextConsumer);
                 });
     }
 
-    private void attackTarget(final WorldMap worldMap, final Cell targetCell, final Herbivore target) {
+    private void attackTarget(final WorldMap worldMap, final Cell targetCell, final Herbivore target,
+                              final Consumer<String> onActionTextConsumer) {
         target.getDamage(attackPoints);
-        System.out.println(this + " attacked " + target);
+        onActionTextConsumer.accept(this + " attacked " + target);
 
         if (!target.isAlive()) {
             worldMap.removeEntity(targetCell);
-            System.out.println(this + " killed " + target);
+            onActionTextConsumer.accept(this + " killed " + target);
         }
     }
 
