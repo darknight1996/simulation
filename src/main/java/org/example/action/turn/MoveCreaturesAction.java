@@ -5,23 +5,16 @@ import org.example.entity.Entity;
 import org.example.entity.creature.Creature;
 import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
-import org.example.render.LogRenderer;
-import org.example.render.WorldMapRenderer;
 
 import java.util.List;
 
 public class MoveCreaturesAction implements Action {
 
     private final WorldMap worldMap;
-    private final WorldMapRenderer worldMapRenderer;
-    private final LogRenderer logRenderer;
     private final PathFinder pathFinder;
 
-    public MoveCreaturesAction(final WorldMap worldMap, final WorldMapRenderer worldMapRenderer,
-                               final LogRenderer logRenderer, final PathFinder pathFinder) {
+    public MoveCreaturesAction(final WorldMap worldMap, final PathFinder pathFinder) {
         this.worldMap = worldMap;
-        this.worldMapRenderer = worldMapRenderer;
-        this.logRenderer = logRenderer;
         this.pathFinder = pathFinder;
     }
 
@@ -35,7 +28,7 @@ public class MoveCreaturesAction implements Action {
 
         for (Creature creature : creatures) {
             if (isStillAlive(creature)) {
-                creature.makeMove(worldMap, pathFinder, () -> worldMapRenderer.render(worldMap), (logRenderer::render));
+                creature.makeMove(worldMap, pathFinder);
             }
         }
     }

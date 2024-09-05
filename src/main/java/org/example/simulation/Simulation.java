@@ -14,6 +14,8 @@ import org.example.pathfinder.PathFinder;
 import org.example.pathfinder.impl.BFSPathFinder;
 import org.example.render.LogRenderer;
 import org.example.render.WorldMapRenderer;
+import org.example.render.listener.CreatureOnMoveListener;
+import org.example.render.listener.impl.CreatureOnMoveListenerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +51,11 @@ public class Simulation {
         initActions.add(new InitTreeAction(worldMap));
         initActions.add(new InitRockAction(worldMap));
 
-        initActions.add(new InitPredatorAction(worldMap));
-        initActions.add(new InitHerbivoreAction(worldMap));
+        final CreatureOnMoveListener creatureOnMoveListener = new CreatureOnMoveListenerImpl(worldMap, worldMapRenderer,
+                logRenderer);
+
+        initActions.add(new InitPredatorAction(worldMap, creatureOnMoveListener));
+        initActions.add(new InitHerbivoreAction(worldMap, creatureOnMoveListener));
     }
 
     private void createTurnActions() {
@@ -58,7 +63,7 @@ public class Simulation {
 
         final PathFinder pathFinder = new BFSPathFinder(worldMap);
 
-        turnActions.add(new MoveCreaturesAction(worldMap, worldMapRenderer, logRenderer, pathFinder));
+        turnActions.add(new MoveCreaturesAction(worldMap, pathFinder));
     }
 
     private void initSimulation() {
