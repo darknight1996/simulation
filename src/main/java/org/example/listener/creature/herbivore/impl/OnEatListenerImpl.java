@@ -22,4 +22,5 @@ public class OnEatListenerImpl extends AbstractListener implements org.example.l
         logRenderer.render(sprite + " ate " + spriteGrass);
         worldMapRenderer.render(worldMap);
     }
+
 }
