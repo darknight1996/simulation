@@ -1,11 +1,7 @@
 package org.example.simulation;
 
 import org.example.action.Action;
-import org.example.action.init.creature.InitHerbivoreAction;
-import org.example.action.init.creature.InitPredatorAction;
-import org.example.action.init.environment.InitGrassAction;
-import org.example.action.init.environment.InitRockAction;
-import org.example.action.init.environment.InitTreeAction;
+import org.example.action.init.InitAction;
 import org.example.action.turn.MoveCreaturesAction;
 import org.example.entity.Entity;
 import org.example.entity.creature.Creature;
@@ -54,12 +50,12 @@ public class Simulation {
     private void createInitActions() {
         initActions = new ArrayList<>();
 
-        initActions.add(new InitGrassAction(worldMap, Grass::new));
-        initActions.add(new InitTreeAction(worldMap, Tree::new));
-        initActions.add(new InitRockAction(worldMap, Rock::new));
+        initActions.add(new InitAction(worldMap, Grass::new, 10));
+        initActions.add(new InitAction(worldMap, Tree::new, 10));
+        initActions.add(new InitAction(worldMap, Rock::new, 10));
 
-        initActions.add(new InitPredatorAction(worldMap, this::createPredator));
-        initActions.add(new InitHerbivoreAction(worldMap, this::createHerbivore));
+        initActions.add(new InitAction(worldMap, this::createPredator, 30));
+        initActions.add(new InitAction(worldMap, this::createHerbivore, 20));
     }
 
     private Predator createPredator() {

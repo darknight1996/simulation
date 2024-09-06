@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class InitAction implements Action {
+public class InitAction implements Action {
 
     private final WorldMap worldMap;
     private final int fillFactor;
