@@ -1,10 +1,10 @@
 package org.example.entity.creature;
 
 import org.example.entity.Entity;
+import org.example.listener.creature.OnMoveListener;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
-import org.example.render.listener.CreatureOnMoveListener;
 
 import java.util.List;
 
@@ -15,13 +15,12 @@ public abstract class Creature extends Entity {
     private final Class<? extends Entity> targetClass;
     private boolean hasNoTarget;
 
-    protected final CreatureOnMoveListener creatureOnMoveListener;
+    private OnMoveListener onMoveListener;
 
-    protected Creature(final int speed, final int hitPoints, final Class<? extends Entity> targetClass, final CreatureOnMoveListener creatureOnMoveListener) {
+    protected Creature(final int speed, final int hitPoints, final Class<? extends Entity> targetClass) {
         this.speed = speed;
         this.hitPoints = hitPoints;
         this.targetClass = targetClass;
-        this.creatureOnMoveListener = creatureOnMoveListener;
     }
 
     public void makeMove(final WorldMap worldMap, final PathFinder pathFinder) {
@@ -62,7 +61,10 @@ public abstract class Creature extends Entity {
             final Cell currentCell = getCurrentCell(worldMap);
             final Cell targetCell = path.get(i);
             makeStep(currentCell, targetCell, worldMap);
-            creatureOnMoveListener.onMove(this, targetCell);
+
+            if (onMoveListener != null) {
+                onMoveListener.onMove(this, targetCell);
+            }
         }
     }
 
@@ -83,4 +85,7 @@ public abstract class Creature extends Entity {
         return hasNoTarget;
     }
 
+    public void setOnMoveListener(final OnMoveListener onMoveListener) {
+        this.onMoveListener = onMoveListener;
+    }
 }

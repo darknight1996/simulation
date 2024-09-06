@@ -1,16 +1,17 @@
 package org.example.action.init.creature;
 
 import org.example.action.init.InitAction;
-import org.example.factory.creature.HerbivoreFactory;
+import org.example.entity.Entity;
 import org.example.map.WorldMap;
-import org.example.render.listener.CreatureOnMoveListener;
+
+import java.util.function.Supplier;
 
 public class InitHerbivoreAction extends InitAction {
 
     private static final int FILL_FACTOR = 20;
 
-    public InitHerbivoreAction(final WorldMap worldMap, final CreatureOnMoveListener creatureOnMoveListener) {
-        super(worldMap, new HerbivoreFactory(creatureOnMoveListener), FILL_FACTOR);
+    public InitHerbivoreAction(final WorldMap worldMap, final Supplier<Entity> entitySupplier) {
+        super(worldMap, entitySupplier, FILL_FACTOR);
     }
 
 }

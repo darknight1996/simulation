@@ -9,13 +9,20 @@ import org.example.action.init.environment.InitTreeAction;
 import org.example.action.turn.MoveCreaturesAction;
 import org.example.entity.Entity;
 import org.example.entity.creature.Creature;
+import org.example.entity.creature.Herbivore;
+import org.example.entity.creature.Predator;
+import org.example.entity.environment.Grass;
+import org.example.entity.environment.Rock;
+import org.example.entity.environment.Tree;
+import org.example.listener.creature.herbivore.impl.OnEatListenerImpl;
+import org.example.listener.creature.impl.OnMoveListenerImpl;
+import org.example.listener.creature.predator.impl.OnAttackListenerImpl;
+import org.example.listener.creature.predator.impl.OnKillListenerImpl;
 import org.example.map.WorldMap;
 import org.example.pathfinder.PathFinder;
 import org.example.pathfinder.impl.BFSPathFinder;
 import org.example.render.LogRenderer;
 import org.example.render.WorldMapRenderer;
-import org.example.render.listener.CreatureOnMoveListener;
-import org.example.render.listener.impl.CreatureOnMoveListenerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +54,31 @@ public class Simulation {
     private void createInitActions() {
         initActions = new ArrayList<>();
 
-        initActions.add(new InitGrassAction(worldMap));
-        initActions.add(new InitTreeAction(worldMap));
-        initActions.add(new InitRockAction(worldMap));
+        initActions.add(new InitGrassAction(worldMap, Grass::new));
+        initActions.add(new InitTreeAction(worldMap, Tree::new));
+        initActions.add(new InitRockAction(worldMap, Rock::new));
 
-        final CreatureOnMoveListener creatureOnMoveListener = new CreatureOnMoveListenerImpl(worldMap, worldMapRenderer,
-                logRenderer);
+        initActions.add(new InitPredatorAction(worldMap, this::createPredator));
+        initActions.add(new InitHerbivoreAction(worldMap, this::createHerbivore));
+    }
 
-        initActions.add(new InitPredatorAction(worldMap, creatureOnMoveListener));
-        initActions.add(new InitHerbivoreAction(worldMap, creatureOnMoveListener));
+    private Predator createPredator() {
+        Predator predator = new Predator(2, 100, 50);
+
+        predator.setOnMoveListener(new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer));
+        predator.setOnAttackListener(new OnAttackListenerImpl(worldMap, worldMapRenderer, logRenderer));
+        predator.setOnKillListener(new OnKillListenerImpl(worldMap, worldMapRenderer, logRenderer));
+
+        return predator;
+    }
+
+    private Herbivore createHerbivore() {
+        Herbivore herbivore = new Herbivore(3, 100);
+
+        herbivore.setOnMoveListener(new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer));
+        herbivore.setOnEatListener(new OnEatListenerImpl(worldMap, worldMapRenderer, logRenderer));
+
+        return herbivore;
     }
 
     private void createTurnActions() {

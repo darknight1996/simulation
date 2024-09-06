@@ -1,23 +1,24 @@
 package org.example.action.init;
 
 import org.example.action.Action;
-import org.example.factory.EntityFactory;
+import org.example.entity.Entity;
 import org.example.map.Cell;
 import org.example.map.WorldMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class InitAction implements Action {
 
     private final WorldMap worldMap;
-    private final EntityFactory<?> entityFactory;
     private final int fillFactor;
+    private final Supplier<Entity> entitySupplier;
 
-    public InitAction(final WorldMap worldMap, final EntityFactory<?> entityFactory, final int fillFactor) {
+    public InitAction(final WorldMap worldMap, final Supplier<Entity> entitySupplier, final int fillFactor) {
         this.worldMap = worldMap;
-        this.entityFactory = entityFactory;
+        this.entitySupplier = entitySupplier;
         this.fillFactor = fillFactor;
     }
 
@@ -26,7 +27,7 @@ public abstract class InitAction implements Action {
         final List<Cell> cellsToFill = getCellsToFill();
 
         for (Cell cell : cellsToFill) {
-            worldMap.putEntity(cell, entityFactory.getEntity());
+            worldMap.putEntity(cell, entitySupplier.get());
         }
     }
 
