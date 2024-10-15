@@ -10,8 +10,12 @@ import org.example.entity.creature.Predator;
 import org.example.entity.environment.Grass;
 import org.example.entity.environment.Rock;
 import org.example.entity.environment.Tree;
+import org.example.listener.creature.OnMoveListener;
+import org.example.listener.creature.herbivore.OnEatListener;
 import org.example.listener.creature.herbivore.impl.OnEatListenerImpl;
 import org.example.listener.creature.impl.OnMoveListenerImpl;
+import org.example.listener.creature.predator.OnAttackListener;
+import org.example.listener.creature.predator.OnKillListener;
 import org.example.listener.creature.predator.impl.OnAttackListenerImpl;
 import org.example.listener.creature.predator.impl.OnKillListenerImpl;
 import org.example.map.WorldMap;
@@ -28,6 +32,8 @@ public class Simulation {
     private final WorldMap worldMap;
     private final WorldMapRenderer worldMapRenderer;
     private final LogRenderer logRenderer;
+
+    private final int SIMULATION_TACT_IN_MS = 500;
 
     private List<Action> initActions;
     private List<Action> turnActions;
@@ -59,20 +65,27 @@ public class Simulation {
     }
 
     private Predator createPredator() {
-        Predator predator = new Predator(2, 100, 50);
+        final Predator predator = new Predator(2, 100, 50);
 
-        predator.setOnMoveListener(new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer));
-        predator.setOnAttackListener(new OnAttackListenerImpl(worldMap, worldMapRenderer, logRenderer));
-        predator.setOnKillListener(new OnKillListenerImpl(worldMap, worldMapRenderer, logRenderer));
+        final OnMoveListener onMoveListener = new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer);
+        final OnAttackListener onAttackListener = new OnAttackListenerImpl(worldMap, worldMapRenderer, logRenderer);
+        final OnKillListener onKillListener = new OnKillListenerImpl(worldMap, worldMapRenderer, logRenderer);
+
+        predator.setOnMoveListener(getDelayedOnMoveListener(onMoveListener));
+        predator.setOnAttackListener(getDelayedOnAttackListener(onAttackListener));
+        predator.setOnKillListener(getDelayedOnKillListener(onKillListener));
 
         return predator;
     }
 
     private Herbivore createHerbivore() {
-        Herbivore herbivore = new Herbivore(3, 100);
+        final Herbivore herbivore = new Herbivore(3, 100);
 
-        herbivore.setOnMoveListener(new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer));
-        herbivore.setOnEatListener(new OnEatListenerImpl(worldMap, worldMapRenderer, logRenderer));
+        final OnMoveListener onMoveListener = new OnMoveListenerImpl(worldMap, worldMapRenderer, logRenderer);
+        final OnEatListener onEatListener = new OnEatListenerImpl(worldMap, worldMapRenderer, logRenderer);
+
+        herbivore.setOnMoveListener(getDelayedOnMoveListener(onMoveListener));
+        herbivore.setOnEatListener(getDelayedOnEatListener(onEatListener));
 
         return herbivore;
     }
@@ -86,7 +99,7 @@ public class Simulation {
     }
 
     private void initSimulation() {
-        for (Action initAction : initActions) {
+        for (final Action initAction : initActions) {
             initAction.perform();
         }
 
@@ -104,7 +117,7 @@ public class Simulation {
                 if (!isStopRequested()) {
                     logRenderer.render("current turn is " + ++turnCounter);
 
-                    for (Action turnAction : turnActions) {
+                    for (final Action turnAction : turnActions) {
                         turnAction.perform();
                     }
                 }
@@ -117,10 +130,12 @@ public class Simulation {
 
     private boolean anyCreatureHasTarget() {
         final List<Entity> entities = worldMap.getAllEntities();
+
         final List<Creature> creatures = entities.stream()
                 .filter(entity -> entity instanceof Creature)
                 .map(entity -> (Creature) entity)
                 .toList();
+
         return creatures.stream()
                 .anyMatch(creature -> !creature.isHasNoTarget());
     }
@@ -135,6 +150,42 @@ public class Simulation {
 
     private synchronized void setIsStopRequested(final boolean isStopRequested) {
         this.isStopRequested = isStopRequested;
+    }
+
+    private OnMoveListener getDelayedOnMoveListener(final OnMoveListener originalListener) {
+        return (creature, cell) -> {
+            delay();
+            originalListener.onMove(creature, cell);
+        };
+    }
+
+    private OnEatListener getDelayedOnEatListener(final OnEatListener originalListener) {
+        return (creature, cell) -> {
+            delay();
+            originalListener.onEat(creature, cell);
+        };
+    }
+
+    private OnAttackListener getDelayedOnAttackListener(final OnAttackListener originalListener) {
+        return (creature, cell) -> {
+            delay();
+            originalListener.onAttack(creature, cell);
+        };
+    }
+
+    private OnKillListener getDelayedOnKillListener(final OnKillListener originalListener) {
+        return (creature, cell) -> {
+            delay();
+            originalListener.onKill(creature, cell);
+        };
+    }
+
+    private void delay() {
+        try {
+            Thread.sleep(SIMULATION_TACT_IN_MS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

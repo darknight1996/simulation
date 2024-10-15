@@ -21,12 +21,13 @@ public class MoveCreaturesAction implements Action {
     @Override
     public void perform() {
         final List<Entity> entities = worldMap.getAllEntities();
+
         final List<Creature> creatures = entities.stream()
                 .filter(entity -> entity instanceof Creature)
                 .map(entity -> (Creature) entity)
                 .toList();
 
-        for (Creature creature : creatures) {
+        for (final Creature creature : creatures) {
             if (isStillAlive(creature)) {
                 creature.makeMove(worldMap, pathFinder);
             }

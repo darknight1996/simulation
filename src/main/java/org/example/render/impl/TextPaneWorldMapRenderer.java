@@ -11,7 +11,6 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
     private final static String LINE_SEPARATOR = "\n";
     private final static String EMPTY_AREA_SIGN = "🌫";
-    private final static int RENDER_TACT_TIME_IN_MS = 500;
 
     private final EntityTextContentMap entityTextContentMap = new EntityTextContentMap();
     private final JTextPane textPane;
@@ -22,8 +21,6 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
 
     @Override
     public void render(final WorldMap worldMap) {
-        delay();
-
         final int width = worldMap.getWidth();
         final int height = worldMap.getHeight();
 
@@ -42,14 +39,6 @@ public class TextPaneWorldMapRenderer implements WorldMapRenderer {
         }
 
         textPane.setText(worldMapContent.toString());
-    }
-
-    private void delay() {
-        try {
-            Thread.sleep(RENDER_TACT_TIME_IN_MS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private String getSpriteByCoordinates(final WorldMap worldMap, final int x, final int y) {

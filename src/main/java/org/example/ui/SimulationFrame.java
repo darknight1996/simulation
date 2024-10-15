@@ -29,6 +29,7 @@ public class SimulationFrame extends JFrame {
         initFrame();
         initComponents();
         initSimulation();
+
         this.setVisible(true);
     }
 
@@ -110,6 +111,7 @@ public class SimulationFrame extends JFrame {
         final WorldMapRenderer worldMapRenderer = new TextPaneWorldMapRenderer(mapTextPane);
         final LogRenderer logRenderer = new TextPandeLogRenderer(logTextPane);
         final WorldMap worldMap = new WorldMap(20, 10);
+
         simulation = new Simulation(worldMap, worldMapRenderer, logRenderer);
     }
 
